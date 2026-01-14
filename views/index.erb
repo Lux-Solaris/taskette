@@ -7,8 +7,16 @@
   </head>
   <body>
     <h1>Taskette - 看版酱 ✨</h1>
-    <p>
-      <% @tasks.all %>
-    </p>
+    <table border="1">
+      <tbody>
+        <% @tasks.all.each do |row| %>
+          <tr>
+            <td><%= @sicon[row[:state]] %></td>
+            <td><%= @stags[row[:state]] %></td>
+            <td><%= row[:title] %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   </body>
 </html>

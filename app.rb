@@ -31,9 +31,25 @@ def get_tasks(ddl_n = 10)
     .order(:deadline, :priority)
 end
 
+def insert_one_task(title = '', state: 1,
+                    deadline: nil, priority: nil, tag: nil)
+  DB[:tasks].insert(title: title, state: state,
+                    deadline: deadline, priority: priority, tag: tag)
+end
+
+state_tags = {
+  1 => 'TODO',
+  0 => 'DONE'
+}
+state_icon = {
+  1 => '⬜',
+  0 => '✅'
+}
 # 路由部分
 get '/' do
   # 'Hello, Taskette!✨'
   @tasks = get_tasks
+  @sicon = state_icon
+  @stags = state_tags
   erb :index
 end
