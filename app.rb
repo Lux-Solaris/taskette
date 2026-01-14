@@ -22,6 +22,16 @@ DB.create_table?(:readmes) do
   DateTime    :time
 end
 
+# 查询 n 天内待办
+def get_tasks(ddl_n = 10)
+  limit_date = Date.today + ddl_n
+  DB[:tasks]
+    .where(state: 1)
+    .where { (deadline >= Date.today) & (deadline <= limit_date) }
+    .order(:deadline, :priority)
+end
+
+# 路由部分
 get '/' do
   'Hello, Taskette!✨'
 end
