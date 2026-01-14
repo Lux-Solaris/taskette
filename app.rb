@@ -3,14 +3,14 @@
 require 'sinatra'
 require 'sequel'
 
-# storage part
+# 数据库创建
 DB = Sequel.connect('sqlite://base.db')
 
 DB.create_table?(:tasks) do
   primary_key :id
   String  :title, null: false # 任务内容
   Integer :state, null: false # 默认: 0 DONE, 1 TODO
-  Date    :deadline           # 空则表示 无ddl
+  Date    :deadline           # 空则表示 无 ddl
   Integer :priority           # 范围: 1 ~ 5
   String  :tag                # 任务标签
 end
@@ -33,5 +33,7 @@ end
 
 # 路由部分
 get '/' do
-  'Hello, Taskette!✨'
+  # 'Hello, Taskette!✨'
+  @tasks = get_tasks
+  erb :index
 end
