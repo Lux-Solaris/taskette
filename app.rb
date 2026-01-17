@@ -36,6 +36,7 @@ def ensure_default_filter
   config.insert(key: 'filter', value: 'all') unless config.where(key: 'filter').any?
   config.insert(key: 'day', value: '7') unless config.where(key: 'day').any?
   config.insert(key: 'tag', value: '') unless config.where(key: 'tag').any?
+  config.insert(key: 'sorter', value: 'priority') unless config.where(key: 'sorter').any?
 end
 
 ensure_default_filter
@@ -47,7 +48,7 @@ def insert_one_task(title = '', state: 1,
                     deadline: deadline, priority: priority, tag: tag)
 end
 
-# 筛选任务
+# 任务筛选与排序
 def filt_tasks(tasks, filter)
   case filter
   when 'ddl'
@@ -58,6 +59,19 @@ def filt_tasks(tasks, filter)
     tasks.where(tag: tag).all
   when 'all' then tasks.all
   else []
+  end
+end
+
+def sort_tasks(tasks, sorter)
+  case sorter
+  when 'priority'
+    tasks.sort_by { |row| [-row[:priority], row[:deadline]] }
+  when 'deadline'
+    tasks.sort_by { |row| [row[:deadline], -row[:priority]] }
+  when 'tag'
+    tasks.sort_by { |row| [row[:tag], -row[:priority], row[:deadline]] }
+  else
+    sort_tasks(tasks, 'priority')
   end
 end
 
@@ -77,8 +91,10 @@ helpers do
   def select_tasks
     basic = DB[:tasks].where(state: 1).where { deadline >= Date.today }
     filter = DB[:config_filters].where(key: 'filter').get(:value)
+    sorter = DB[:config_filters].where(key: 'sorter').get(:value)
 
-    filt_tasks(basic, filter)
+    filted = filt_tasks(basic, filter)
+    sort_tasks(filted, sorter)
   end
 
   # 打招呼的标题
