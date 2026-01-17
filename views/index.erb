@@ -1,23 +1,20 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Taskette's Home</title>
-    <script src="/jquery.js"></script>
-    <!-- <link rel="stylesheet" href="/style.css"> -->
-  </head>
-  <body>
-    <h1>Taskette - 看版酱 ✨</h1>
-    <table border="1">
-      <tbody>
-        <% @tasks.all.each do |row| %>
-          <tr>
-            <td><%= @sicon[row[:state]] %></td>
-            <td><%= @stags[row[:state]] %></td>
-            <td><%= row[:title] %></td>
-            <td><%= row[:tag] || '' %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </body>
-</html>
+<!-- <p><%= greetings %></p> -->
+<h2>今日任务看板 📝</h2>
+<div class="task-list">
+  <% select_tasks.each do |task| %>
+    <div class="task-card">
+      <h3><%= task[:title] %> 🌸</h3>
+      <% unless task[:deadline].nil? %>
+        <p class="deadline">截止: <%= task[:deadline] %></p>
+      <% end %>
+      <% unless task[:priority].nil? %>
+        <p>重要度: <%= '⭐' * task[:priority] %></p>
+      <% end %>
+      <% unless task[:tag].nil? %>
+        <p>标签: <%= task[:tag] %></p>
+      <% end %>
+      <a href="/tasks/<%= task[:id] %>/complete" class="btn">✓ 标记完成</a>
+    </div>
+  <% end %>
+  <p class="hint">✨ 点击卡片右下角“✓”标记完成！</p>
+</div>

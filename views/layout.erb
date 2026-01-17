@@ -11,12 +11,14 @@
       <nav>
         <a href="/">看板</a>
         <a href="/tasks">任务仓库</a>
-        <a href="config">看板设置</a>
+        <a href="/config">设置</a>
         <a href="/focus">专注模式</a>
       </nav>
     </header>
 
-    <%= yield %>
+    <main>
+      <%= yield %>
+    </main>
 
     <footer class="main-footer">
       <p>&copy; 2026 看板酱的小窝 | <a href="https://opensource.org/licenses/MIT">MIT License</a></p>
