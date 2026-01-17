@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Taskette 多维度看板酱</title>
+    <link rel="stylesheet"  href="/style.css" >
+  </head>
+  <body class="kawaii-layout">
+    <header class="main-header">
+      <h1><a href="/">Taskette - 看板酱 [⌯'▾'⌯]✨</a></h1>
+      <nav>
+        <a href="/">看板</a>
+        <a href="/tasks">任务仓库</a>
+        <a href="config">看板设置</a>
+        <a href="/focus">专注模式</a>
+      </nav>
+    </header>
+
+    <%= yield %>
+
+    <footer class="main-footer">
+      <p>&copy; 2026 看板酱的小窝 | <a href="https://opensource.org/licenses/MIT">MIT License</a></p>
+      <p>和你一起, 完成每一件小事 💖</p>
+    </footer>
+  </body>
+</html>
