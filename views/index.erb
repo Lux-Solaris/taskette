@@ -14,6 +14,7 @@
             <td><%= @sicon[row[:state]] %></td>
             <td><%= @stags[row[:state]] %></td>
             <td><%= row[:title] %></td>
+            <td><%= row[:tag] || '' %></td>
           </tr>
         <% end %>
       </tbody>
