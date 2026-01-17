@@ -1,0 +1,135 @@
+/* ===== 全局可爱设定 ===== */
+:root {
+  --main-pink: #ffadd2;
+  --soft-blue: #a2d2ff;
+  --light-mint: #caffbf;
+  --warm-white: #fff9f9;
+  --text-dark: #4b4b4b;
+  --shadow-light: rgba(0, 0, 0, 0.05);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body.kawaii-layout {
+  font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  background-color: var(--warm-white);
+  color: var(--text-dark);
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== 头部：软乎乎的导航栏 ===== */
+.main-header {
+  background: linear-gradient(135deg, var(--main-pink), var(--soft-blue));
+  padding: 1rem 2rem;
+  box-shadow: 0 4px 12px var(--shadow-light);
+}
+.main-header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+.main-header a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+.main-header nav {
+  margin-top: 0.5rem;
+}
+.main-header nav a {
+  margin-right: 1.2rem;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+.main-header nav a:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+/* ===== 主内容区 ===== */
+body > main {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+/* ===== 卡片样式（用于任务项）===== */
+.task-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.2rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px var(--shadow-light);
+  border-left: 4px solid var(--light-mint);
+  transition: transform 0.2s ease;
+}
+.task-card:hover {
+  transform: translateY(-2px);
+}
+
+/* ===== 按钮：圆润可爱 ===== */
+.btn {
+  display: inline-block;
+  background: var(--main-pink);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 0.4rem 1rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-decoration: none;
+  margin: 0.2rem;
+  transition: background 0.2s;
+}
+.btn:hover {
+  background: #ff7eb9;
+}
+
+/* ===== 表单输入：温柔边框 ===== */
+input, textarea, select {
+  padding: 0.5rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 1rem;
+  margin: 0.3rem 0;
+  width: 100%;
+  max-width: 300px;
+}
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--soft-blue);
+}
+
+/* ===== 页脚：小窝感十足 ===== */
+.main-footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #888;
+  font-size: 0.9rem;
+  border-top: 1px dashed #eee;
+  margin-top: 3rem;
+}
+.main-footer p {
+  margin: 0.3rem 0;
+}
+
+/* ===== 响应式小调整 ===== */
+@media (max-width: 600px) {
+  .main-header {
+    padding: 1rem;
+  }
+  .main-header h1 {
+    font-size: 1.4rem;
+  }
+  .main-header nav a {
+    display: block;
+    margin: 0.4rem 0;
+  }
+  body > main {
+    margin: 1.5rem auto;
+    padding: 0 1rem;
+  }
+}
