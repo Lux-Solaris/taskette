@@ -1,9 +1,9 @@
-#+title: Taskette / 代办看版酱
+#+title: Taskette / 代办看板酱
 #+author: Aves Caerulea
 
 * 项目说明
 
-- 用 ~Ruby~ 的 ~Sinatra~ 框架, 开发一个任务跟踪看版
+- 用 ~Ruby~ 的 ~Sinatra~ 框架, 开发一个任务跟踪看板
 
 ** 设计功能
 
