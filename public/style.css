@@ -1,4 +1,32 @@
 /* ===== 全局可爱设定 ===== */
+@font-face {
+    font-family: "Maple Mono NF CN";
+    src: url("/fonts/MapleMono-NF-CN-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Maple Mono NF CN";
+    src: url("/fonts/MapleMono-NF-CN-Bold.ttf") format("truetype");
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Maple Mono NF CN";
+    src: url("/fonts/MapleMono-NF-CN-Italic.ttf") format("truetype");
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Maple Mono NF CN";
+    src: url("/fonts/MapleMono-NF-CN-BoldItalic.ttf") format("truetype");
+    font-weight: bold;
+    font-style: italic;
+}
+
 :root {
   --main-pink: #ffadd2;
   --soft-blue: #a2d2ff;
@@ -13,7 +41,7 @@
 }
 
 body.kawaii-layout {
-  font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  font-family: "Maple Mono NF CN", "Noto Sans SC", "Microsoft YaHei", sans-serif;
   background-color: var(--warm-white);
   color: var(--text-dark);
   line-height: 1.6;
