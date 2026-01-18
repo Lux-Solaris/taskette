@@ -115,8 +115,21 @@ end
 
 # 路由部分
 get '/' do
+  # 看板
   # 'Hello, Taskette!✨'
   @sicon = state_icon
   @stags = state_tags
   erb :index
+end
+
+get '/tasks' do
+  # 任务仓库
+end
+
+get '/config' do
+  # 设置
+end
+
+get '/focus' do
+  # 专注模式
 end
