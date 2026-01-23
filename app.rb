@@ -40,6 +40,7 @@ def ensure_default_filter
 end
 
 ensure_default_filter
+MAX_DATE = Date.new(9999, 12, 31)
 
 # 插入一条任务
 def insert_one_task(title = '', state: 1,
@@ -65,11 +66,11 @@ end
 def sort_tasks(tasks, sorter)
   case sorter
   when 'priority'
-    tasks.sort_by { |row| [-row[:priority], row[:deadline]] }
+    tasks.sort_by { |row| [-row[:priority] || 0, row[:deadline] || MAX_DATE] }
   when 'deadline'
-    tasks.sort_by { |row| [row[:deadline], -row[:priority]] }
+    tasks.sort_by { |row| [row[:deadline] || MAX_DATE, -row[:priority] || 0] }
   when 'tag'
-    tasks.sort_by { |row| [row[:tag], -row[:priority], row[:deadline]] }
+    tasks.sort_by { |row| [row[:tag], -row[:priority] || 0, row[:deadline] || MAX_DATE] }
   else
     sort_tasks(tasks, 'priority')
   end
