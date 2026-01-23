@@ -28,11 +28,15 @@
 }
 
 :root {
+    /* Theme Color */
     --main-pink: #ffadd2;
     --soft-blue: #a2d2ff;
     --light-mint: #caffbf;
     --warm-white: #fff9f9;
+    /* Font Color */
     --text-dark: #4b4b4b;
+    --subtle-gray: #999999;
+    /* Shadow Color */
     --shadow-light: rgba(0, 0, 0, 0.05);
 }
 
@@ -174,6 +178,9 @@ input:focus, textarea:focus {
         0 -2px 4px rgba(0, 0, 0, 0.05),
         0  2px 4px rgba(0, 0, 0, 0.05);
     transition: background-color 0.2s, box-shadow 0.2s;
+}
+.text-gray {
+    color: var(--subtle-gray);
 }
 
 /* 操作按钮：更小更精致 */

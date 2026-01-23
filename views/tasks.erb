@@ -2,8 +2,8 @@
 <table class="task-table" >
   <thead>
     <tr class="task-header">
+      <th></th>
       <th>标题</th>
-      <!-- <th>状态</th> -->
       <th>DDL</th>
       <th>优先级</th>
       <th>标签</th>
@@ -13,8 +13,12 @@
   <tbody>
     <% all_tasks.each do |task| %>
       <tr class="task-row" <%= 'completed' if task[:state] == 2 %>>
+        <!-- <td><%= '✅' if task[:state].zero? %></td> -->
+        <td>
+          <%= @sicon[task[:state]] %>
+        </td>
         <td><%= task[:title] %></td>
-        <td><%= task[:deadline] || '无DDL' %></td>
+        <td><%= task[:deadline] || '<span class="text-gray">-无DDL-</span>' %></td>
         <td><%= '⭐' * task[:priority] %></td>
         <td><%= task[:tag] || '-' %></td>
         <td>
