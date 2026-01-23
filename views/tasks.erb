@@ -1,0 +1,30 @@
+<h2>任务仓库 📦</h2>
+<table class="task-table" >
+  <thead>
+    <tr class="task-header">
+      <th>标题</th>
+      <!-- <th>状态</th> -->
+      <th>DDL</th>
+      <th>优先级</th>
+      <th>标签</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% all_tasks.each do |task| %>
+      <tr class="task-row" <%= 'completed' if task[:state] == 2 %>>
+        <td><%= task[:title] %></td>
+        <td><%= task[:deadline] || '无DDL' %></td>
+        <td><%= '⭐' * task[:priority] %></td>
+        <td><%= task[:tag] || '-' %></td>
+        <td>
+          <a href="/tasks/<%= task[:id] %>/edit" class="btn btn-sm">✏️ 编辑</a>
+          <!-- <form action="/tasks/<%= task[:id] %>" method="post" style="display:inline;">
+               <input type="hidden" name="_method" value="delete">
+               <button type="submit" class="btn btn-sm btn-danger">❌ 删除</button>
+               </form> -->
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

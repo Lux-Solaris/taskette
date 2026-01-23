@@ -87,7 +87,7 @@ state_icon = {
 
 # 帮助函数
 helpers do
-  # 查询函数
+  # For index.erb
   def select_tasks
     basic = DB[:tasks].where(state: 1).where { deadline >= Date.today }
     filter = DB[:config_filters].where(key: 'filter').get(:value)
@@ -97,7 +97,6 @@ helpers do
     sort_tasks(filted, sorter)
   end
 
-  # 打招呼的标题
   def greetings
     hour = Time.now.hour
     case hour
@@ -110,6 +109,12 @@ helpers do
     else
       '呜哇～快去睡觉觉! 看板酱盯着你呢！(;′⌒`)'
     end
+  end
+
+  # For tasks.erb
+  def all_tasks
+    all = DB[:tasks].all
+    result = sort_tasks(all, 'deadline')
   end
 end
 
@@ -124,6 +129,7 @@ end
 
 get '/tasks' do
   # 任务仓库
+  erb :tasks
 end
 
 get '/config' do

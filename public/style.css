@@ -136,6 +136,52 @@ input:focus, textarea:focus {
     border-color: var(--soft-blue);
 }
 
+/* ===== 表格：治愈系紧凑版 ===== */
+.task-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px var(--shadow-light);
+    margin-bottom: 2rem;
+}
+
+.task-header {
+    background: linear-gradient(135deg, var(--main-pink), var(--soft-blue));
+    color: white;
+}
+.task-header th {
+    padding: 1rem;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.task-row {
+    border-bottom: 1px solid #eee;
+}
+.task-row td {
+    padding: 0.8rem 1rem;
+    font-size: 0.95rem;
+}
+.task-row:hover {
+    background-color: #fff9f9;
+    transform: translateY(-1px);
+    transition: transform 0.2s;
+}
+
+/* 操作按钮：更小更精致 */
+.btn-sm {
+    padding: 0.25rem 0.7rem;
+    font-size: 0.8rem;
+}
+
+/* 已完成状态：视觉区分 */
+.task-row.completed {
+    opacity: 0.6;
+    filter: grayscale(20%);
+}
+
 /* ===== 页脚：小窝感十足 ===== */
 .main-footer {
     text-align: center;

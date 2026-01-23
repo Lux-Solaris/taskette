@@ -1,7 +1,7 @@
 <!-- <p><%= greetings %></p> -->
 <h2>今日任务看板 📝</h2>
 <div class="task-list">
-  <% select_tasks.each do |task| %>
+  <% task_list = select_tasks.each do |task| %>
     <div class="task-card">
       <h3><%= task[:title] %> 🌸</h3>
       <% unless task[:deadline].nil? %>
@@ -16,5 +16,9 @@
       <a href="/tasks/<%= task[:id] %>/complete" class="btn">✓ 标记完成</a>
     </div>
   <% end %>
-  <p class="hint">✨ 点击卡片右下角“✓”标记完成！</p>
+  <% unless task_list.empty? %>
+    <p class="hint">✨ 点击卡片左下角“✓”标记完成!</p>
+  <% else %>
+    <p class="hint">🌸 没有任务啦! 去休息吧~</p>
+  <% end %>
 </div>
