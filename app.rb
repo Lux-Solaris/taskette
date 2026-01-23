@@ -123,13 +123,13 @@ end
 get '/' do
   # 看板
   # 'Hello, Taskette!✨'
-  @sicon = state_icon
-  @stags = state_tags
   erb :index
 end
 
 get '/tasks' do
   # 任务仓库
+  @sicon = state_icon
+  @stags = state_tags
   erb :tasks
 end
 
@@ -139,4 +139,11 @@ end
 
 get '/focus' do
   # 专注模式
+end
+
+# 一些交互 / Interactions
+
+get '/tasks/:id/complete' do
+  DB[:tasks].where(id: params[:id]).update(state: 0)
+  redirect '/'
 end
