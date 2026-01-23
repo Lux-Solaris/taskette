@@ -12,7 +12,7 @@ DB.create_table?(:tasks) do
   String  :title, null: false # 任务内容
   Integer :state, null: false # 默认: 0 DONE, 1 TODO
   Date    :deadline           # 空则表示 无 ddl
-  Integer :priority           # 范围: 1 ~ 5
+  Integer :priority           # 范围: 5 ~ 1
   String  :tag                # 任务标签
 end
 
