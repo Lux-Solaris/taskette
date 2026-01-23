@@ -88,6 +88,9 @@ body > main {
     padding: 0 1.5rem;
     flex: 1;
 }
+body > main > h2 {
+    text-align: center;
+}
 
 /* ===== 卡片样式（用于任务项）===== */
 .task-card {
