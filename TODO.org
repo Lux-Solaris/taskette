@@ -1,4 +1,16 @@
 #+title: TODO of Taskette
 
-* TODO Change button 标记完成 From GET to POST
+
+* TODO Add Form for tasks and app.rb
++ Location: ~views/tasks.erb~ & ~app.rb~
+
+
+* Wishes to do [0/3]
+** TODO Change button 标记完成 From GET to POST
 + Location: ~views/index.erb~
+
+** TODO Add time-stamp for task-complete
++ Location: ~app.rb~
+
+** TODO Change icon @sicon[] Into button to toggle
++ Location: ~views/tasks.erb~
