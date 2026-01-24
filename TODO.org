@@ -1,7 +1,6 @@
 #+title: TODO of Taskette
 
-
-* TODO Add Form for tasks and app.rb
+* TODO Add Form for tasks and app.rb with DELETE
 + Location: ~views/tasks.erb~ & ~app.rb~
 
 
@@ -14,3 +13,38 @@
 
 ** TODO Change icon @sicon[] Into button to toggle
 + Location: ~views/tasks.erb~
+
+
+* About testing data
+#+begin_src ruby
+  require 'sequel'
+
+  # 数据库创建
+  DB = Sequel.connect('sqlite://base.db')
+
+  module T
+    module_function
+
+    def clear(db)
+      db[:tasks].delete
+    end
+
+    def data(db)
+      tasks = db[:tasks]
+
+      # 插入测试数据
+      tasks.insert(title: "完成项目报告", state: 0, deadline: Date.new(2026, 1, 20), priority: 5, tag: "工作")
+      tasks.insert(title: "购买生日礼物", state: 1, deadline: Date.new(2026, 2, 14), priority: 3, tag: "生活")
+      tasks.insert(title: "整理书架", state: 1, deadline: nil, priority: 1, tag: "家务")
+      tasks.insert(title: "复习数据库知识", state: 1, deadline: Date.new(2026, 1, 30), priority: 4, tag: "学习")
+      tasks.insert(title: "提交报销单", state: 0, deadline: Date.new(2026, 1, 15), priority: 2, tag: "工作")
+      tasks.insert(title: "晨跑", state: 1, deadline: nil, priority: 2, tag: "健康")
+      tasks.insert(title: "阅读《设计模式》第3章", state: 0, deadline: nil, priority: 3, tag: "学习")
+    end
+  end
+
+  T.clear(DB)
+  puts(DB[:tasks].all)
+  T.data(DB)
+  puts(DB[:tasks].all)
+#+end_src
