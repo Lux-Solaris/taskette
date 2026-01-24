@@ -120,6 +120,8 @@ helpers do
 end
 
 # 路由部分
+use Rack::MethodOverride
+
 get '/' do
   # 看板
   # 'Hello, Taskette!✨'
@@ -146,4 +148,13 @@ end
 get '/tasks/:id/complete' do
   DB[:tasks].where(id: params[:id]).update(state: 0)
   redirect '/'
+end
+
+delete '/tasks/:id' do
+  redirect '/info/delete_op'
+end
+
+get '/info/:info' do
+  @info = params[:info]
+  erb :info
 end

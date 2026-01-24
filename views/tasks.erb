@@ -23,10 +23,12 @@
         <td><%= task[:tag] || '-' %></td>
         <td>
           <a href="/tasks/<%= task[:id] %>/edit" class="btn btn-sm">✏️ 编辑</a>
-          <!-- <form action="/tasks/<%= task[:id] %>" method="post" style="display:inline;">
-               <input type="hidden" name="_method" value="delete">
-               <button type="submit" class="btn btn-sm btn-danger">❌ 删除</button>
-               </form> -->
+          <form action="/tasks/<%= task[:id] %>" method="post" style="display:inline;">
+            <input type="hidden" name="_method" value="delete">
+            <button type="submit"
+                    class="btn btn-sm btn-danger"
+                    onclick="return confirm('确定要, 删除这个任务吗?');">❌ 删除</button>
+          </form>
         </td>
       </tr>
     <% end %>
