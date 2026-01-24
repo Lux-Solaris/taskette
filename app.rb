@@ -151,9 +151,11 @@ get '/tasks/:id/complete' do
 end
 
 delete '/tasks/:id' do
-  redirect '/info/delete_op'
+  DB[:tasks].where(id: params[:id]).delete
+  redirect '/tasks'
 end
 
+# 调试用 INFO
 get '/info/:info' do
   @info = params[:info]
   erb :info
