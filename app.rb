@@ -5,6 +5,7 @@ require 'sequel'
 
 # 数据库创建
 DB = Sequel.connect('sqlite://base.db')
+DB.run("PRAGMA foreign_keys = ON;")
 
 # 任务列表
 DB.create_table?(:tasks) do
@@ -19,7 +20,7 @@ end
 # 任务记录
 DB.create_table?(:readmes) do
   primary_key :id
-  foreign_key :task_id, :tasks, null: false
+  foreign_key :task_id, :tasks, null: false, on_delete: :cascade
   String      :content, text: true
   DateTime    :time
 end
@@ -112,7 +113,8 @@ state_icon = {
 helpers do
   # For index.erb
   def select_tasks
-    basic = DB[:tasks].where(state: 1).where { deadline >= Date.today }
+    basic = DB[:tasks].where(state: 1).where{ (deadline >= Date.today) | (deadline =~ nil) }
+    puts basic.all
     filter = DB[:config_filters].where(key: 'filter').get(:value)
     sorter = DB[:config_filters].where(key: 'sorter').get(:value)
 
@@ -159,6 +161,14 @@ end
 
 get '/config' do
   # 设置
+  if params[:filter].nil? || params[:filter].empty?
+    filter = DB[:config_filters].where(key: 'filter').get(:value)
+    redirect to "/config?filter=#{filter}"
+  else
+    @config = DB[:config_filters].all.map { |h| [h[:key].to_sym, h[:value]] }.to_h
+    @available_tags = DB[:tasks].select_map(:tag).uniq
+    erb :config
+  end
 end
 
 get '/focus' do
@@ -169,7 +179,7 @@ end
 
 get '/tasks/:id/complete' do
   complete_one_task(params[:id])
-  redirect '/'
+  redirect to '/'
 end
 
 post '/tasks' do
@@ -183,12 +193,31 @@ post '/tasks' do
     add_one_readme(task_id: id,
                    content: params[:readme])
   end
-  redirect '/tasks'
+  redirect to '/tasks'
 end
 
 delete '/tasks/:id' do
   delete_one_task(params[:id])
-  redirect '/tasks'
+  redirect to '/tasks'
+end
+
+post '/config' do
+  filter = params[:current_filter] || 'all'
+  sorter = params[:sorter] || 'priority'
+
+  DB[:config_filters].where(key: 'filter').update(value: filter)
+  DB[:config_filters].where(key: 'sorter').update(value: sorter)
+
+  if filter == 'ddl'
+    day = [params[:day].to_i, 1].max.to_s
+    DB[:config_filters].where(key: 'day').update(value: day)
+
+  elsif filter == 'tag'
+    tag = params[:tag] || ''
+    DB[:config_filters].where(key: 'tag').update(value: tag)
+  end
+
+  redirect '/config'
 end
 
 # 调试用 INFO

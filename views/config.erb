@@ -1,0 +1,60 @@
+<!-- 看板设置小窝！ -->
+<h2 class="text-center">✨ 看板设置小窝 ✨</h2>
+
+<!-- 表单 -->
+<form method="post" action="/config">
+  <!-- 隐藏字段: 用于记录筛选模式 -->
+  <input type="hidden" name="current_filter" value="<%= params[:filter] || @config['filter'] %>">
+
+  <!-- 筛选规则 -->
+  <div class="task-form">
+    <h3 class="text-center">🔍 筛选规则</h3>
+    <div class="form-group">
+      <a href="/config?filter=all" class="btn <%= params[:filter] == 'all' ? 'active' : 'inactive' %>">全部任务</a>
+      <a href="/config?filter=ddl" class="btn <%= params[:filter] == 'ddl' ? 'active' : 'inactive' %>">按DDL筛选</a>
+      <a href="/config?filter=tag" class="btn <%= params[:filter] == 'tag' ? 'active' : 'inactive' %>">按标签筛选</a>
+    </div>
+
+    <!-- 动态输入框 (按筛选规则显示) -->
+    <% if params[:filter] == 'ddl' %>
+      <div class="form-group">
+        <input type="number" name="day" value="<%= (@config[:day] || 7).to_i %>" min="1" placeholder="例：7天" class="form-control">
+        <p class="text-gray">✨ 未来 <span class="text-bold"><%= @config[:day] %></span> 天内的任务</p>
+      </div>
+    <% elsif params[:filter] == 'tag' %>
+      <div class="form-group">
+        <% if @available_tags.empty? %>
+          <p class="text-gray">📭 还没有可用标签哦~ 先去添加任务吧!</p>
+        <% else %>
+          <select name="tag" class="form-control">
+            <option value="">- 请选择标签 -</option>
+            <% @available_tags.each do |tag| %>
+              <option value="<%= tag %>" <%= 'selected' if tag == @config[:tag] %>>
+                <%= tag %>
+              </option>
+            <% end %>
+          </select>
+          <p class="text-gray">🏷️ 只显示标签为 <span class="text-bold"><%= @config[:tag] %></span> 的任务</p>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- 排序规则 -->
+  <div class="task-form">
+    <!-- <h3 class="text-center">⏰ 排序规则</h3> -->
+    <h3 class="text-center">↕️ 排序规则</h3>
+    <div class="form-group">
+      <select name="sorter" class="form-control">
+        <option value="priority" <%= 'selected' if @config[:sorter] == 'priority' %>>优先级 (⭐️高优先)</option>
+        <option value="deadline" <%= 'selected' if @config[:sorter] == 'deadline' %>>截止日期 (最近优先)</option>
+        <option value="tag" <%= 'selected' if @config[:sorter] == 'tag' %>>标签 (A-Z排序)</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- 保存按钮 -->
+  <div class="text-center">
+    <button class="btn" type="submit">保存喵~ ✨</button>
+  </div>
+</form>

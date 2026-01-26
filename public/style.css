@@ -128,6 +128,44 @@ body > main > h2 {
     background: #ff7eb9;
 }
 
+/* ===== 按钮状态魔法 ===== */
+/* 非激活态：温柔退后的小云朵☁️ */
+.btn.inactive {
+    background-color: #f0f0f0;
+    color: #a0a0a0;
+    border: 1px solid #e0e0e0;
+    opacity: 0.7;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.btn.inactive:hover {
+    background-color: #e8e8e8;
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+/* 激活态：闪闪发光的小主角🌟 */
+.btn.active {
+    background: linear-gradient(135deg, var(--main-pink), #ff7eb9);
+    color: white !important;
+    border: 2px solid white;
+    box-shadow: 
+        0 0 0 2px var(--soft-blue),
+        0 4px 10px rgba(255, 165, 210, 0.3);
+    font-weight: bold;
+    transform: translateY(-2px);
+    position: relative;
+    z-index: 10;
+    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.btn.active:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 0 0 2px var(--soft-blue),
+        0 6px 15px rgba(255, 165, 210, 0.4);
+    background: linear-gradient(135deg, #ff7eb9, var(--main-pink));
+}
+
 /* ===== 表单输入：温柔边框 ===== */
 input, textarea, select {
     padding: 0.5rem;
