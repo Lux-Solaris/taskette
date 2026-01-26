@@ -61,6 +61,16 @@ def delete_one_task(id)
   DB[:tasks].where(id: id).delete
 end
 
+# 关于 README 的函数
+def add_one_readme(task_id:, content:)
+  task_id = task_id.to_i unless task_id.is_a?(Integer)
+
+  DB[:readmes].insert(
+    task_id: task_id,
+    content: content
+  )
+end
+
 # 任务筛选与排序
 def filt_tasks(tasks, filter)
   case filter
@@ -169,6 +179,10 @@ post '/tasks' do
     priority: params[:priority],
     tag: params[:tag]
   )
+  unless params[:readme] == ''
+    add_one_readme(task_id: id,
+                   content: params[:readme])
+  end
   redirect '/tasks'
 end
 
