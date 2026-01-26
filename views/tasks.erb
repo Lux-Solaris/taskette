@@ -34,3 +34,37 @@
     <% end %>
   </tbody>
 </table>
+
+<%# 新建任务表单 %>
+<h2>➕ 添加新任务</h2>
+<form action="/tasks" method="post" class="task-form">
+  <!-- 标题 (必填) -->
+  <label>✨ 任务标题</label>
+  <input type="text" name="title" placeholder="今天, 要做什么~呢?" required>
+
+  <!-- 截止日期 -->
+  <label>📅 截止日期 (可选)</label>
+  <input type="date" name="deadline">
+
+  <!-- 重要度 (用下拉菜单更直观) -->
+  <label>⭐ 重要程度</label>
+  <select name="priority">
+    <option value="" selected>-无-</option>
+    <option value="1">⭐ 普通</option>
+    <option value="2">⭐⭐ 重要</option>
+    <option value="3">⭐⭐⭐ 很重要</option>
+    <option value="4">⭐⭐⭐⭐ 非常重要</option>
+    <option value="5">⭐⭐⭐⭐⭐ 切身大事!</option>
+  </select>
+
+  <!-- 标签 -->
+  <label>🏷️ 分类标签 (如：学习 / 工作)</label>
+  <input type="text" name="tag" placeholder="按回车或逗号分隔多个标签">
+
+  <!-- Readme (多行备注) -->
+  <label>📝 详细说明 (可选)</label>
+  <textarea name="readme" placeholder="记录灵感、步骤或备注..."></textarea>
+
+  <!-- 提交按钮 -->
+  <button type="submit" class="btn">✓ 添加任务</button>
+</form>

@@ -136,7 +136,6 @@ input, textarea, select {
     font-size: 1rem;
     margin: 0.3rem 0;
     width: 100%;
-    max-width: 300px;
 }
 input:focus, textarea:focus {
     outline: none;
@@ -195,6 +194,30 @@ input:focus, textarea:focus {
     filter: grayscale(20%);
 }
 
+/* 表单整体 */
+.task-form {
+    max-width: 800px;
+    width: 100%;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px var(--shadow-light);
+}
+
+/* 表单标签 */
+.task-form label {
+    display: block;
+    margin: 1rem 0 0.4rem;
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+/* 文本域高度优化 */
+textarea {
+    min-height: 80px;
+}
+
 /* ===== 页脚：小窝感十足 ===== */
 .main-footer {
     text-align: center;
@@ -223,5 +246,14 @@ input:focus, textarea:focus {
     body > main {
         margin: 1.5rem auto;
         padding: 0 1rem;
+    }
+    .task-form label {
+        display: none;
+    }
+    .task-form input,
+    .task-form select,
+    .task-form textarea {
+        width: 100%;
+        padding: 0.6rem;
     }
 }
