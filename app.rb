@@ -42,11 +42,19 @@ end
 ensure_default_filter
 MAX_DATE = Date.new(9999, 12, 31)
 
-# 插入一条任务
+# one_task 系列函数
 def insert_one_task(title = '', state: 1,
                     deadline: nil, priority: nil, tag: nil)
   DB[:tasks].insert(title: title, state: state,
                     deadline: deadline, priority: priority, tag: tag)
+end
+
+def complete_one_task(id)
+  DB[:tasks].where(id: id).update(state: 0)
+end
+
+def delete_one_task(id)
+  DB[:tasks].where(id: id).delete
 end
 
 # 任务筛选与排序
@@ -146,12 +154,19 @@ end
 # 一些交互 / Interactions
 
 get '/tasks/:id/complete' do
-  DB[:tasks].where(id: params[:id]).update(state: 0)
+  complete_one_task(params[:id])
   redirect '/'
 end
 
+post '/tasks' do
+  redirect '/info/' +
+    "title: #{params[:title]}<br>" +
+    "deadline: #{params[:deadline]}<br>" +
+    "priority: #{params[:priority]}"
+end
+
 delete '/tasks/:id' do
-  DB[:tasks].where(id: params[:id]).delete
+  delete_one_task(params[:id])
   redirect '/tasks'
 end
 
