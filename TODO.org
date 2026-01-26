@@ -1,7 +1,15 @@
 #+title: TODO of Taskette
 
-* TODO Add Form for tasks and app.rb with DELETE
+* DONE Add Form for tasks and app.rb with DELETE
+CLOSED: [2026-01-26 一 22:02]
 + Location: ~views/tasks.erb~ & ~app.rb~
+
+
+* DONE Add-file function complete
+CLOSED: [2026-01-26 一 22:05]
+
+
+* TODO Add README adding into it
 
 
 * Wishes to do [0/3]
@@ -13,6 +21,9 @@
 
 ** TODO Change icon @sicon[] Into button to toggle
 + Location: ~views/tasks.erb~
+
+** TODO 进行表格行宽问题的改进
++ Location: Perhaps CSS?
 
 
 * About testing data

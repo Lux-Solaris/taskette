@@ -19,7 +19,7 @@
         </td>
         <td><%= task[:title] %></td>
         <td><%= task[:deadline] || '<span class="text-gray">-无DDL-</span>' %></td>
-        <td><%= '⭐' * task[:priority] %></td>
+        <td><%= '⭐' * (task[:priority] || 0) %></td>
         <td><%= task[:tag] || '-' %></td>
         <td>
           <a href="/tasks/<%= task[:id] %>/edit" class="btn btn-sm">✏️ 编辑</a>

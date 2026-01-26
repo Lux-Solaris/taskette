@@ -43,8 +43,12 @@ ensure_default_filter
 MAX_DATE = Date.new(9999, 12, 31)
 
 # one_task 系列函数
-def insert_one_task(title = '', state: 1,
-                    deadline: nil, priority: nil, tag: nil)
+def insert_one_task(title: '', state: 1,
+                    deadline: '', priority: '', tag: '', **_rest)
+  deadline = deadline == '' ? nil : Date.parse(deadline)
+  priority = priority == '' ? nil : priority.to_i
+  tag = nil if tag == ''
+
   DB[:tasks].insert(title: title, state: state,
                     deadline: deadline, priority: priority, tag: tag)
 end
@@ -74,11 +78,11 @@ end
 def sort_tasks(tasks, sorter)
   case sorter
   when 'priority'
-    tasks.sort_by { |row| [-row[:priority] || 0, row[:deadline] || MAX_DATE] }
+    tasks.sort_by { |row| [-(row[:priority] || 0), row[:deadline] || MAX_DATE] }
   when 'deadline'
-    tasks.sort_by { |row| [row[:deadline] || MAX_DATE, -row[:priority] || 0] }
+    tasks.sort_by { |row| [row[:deadline] || MAX_DATE, -(row[:priority] || 0)] }
   when 'tag'
-    tasks.sort_by { |row| [row[:tag], -row[:priority] || 0, row[:deadline] || MAX_DATE] }
+    tasks.sort_by { |row| [row[:tag], -(row[:priority] || 0), row[:deadline] || MAX_DATE] }
   else
     sort_tasks(tasks, 'priority')
   end
@@ -159,10 +163,13 @@ get '/tasks/:id/complete' do
 end
 
 post '/tasks' do
-  redirect '/info/' +
-    "title: #{params[:title]}<br>" +
-    "deadline: #{params[:deadline]}<br>" +
-    "priority: #{params[:priority]}"
+  id = insert_one_task(
+    title: params[:title],
+    deadline: params[:deadline],
+    priority: params[:priority],
+    tag: params[:tag]
+  )
+  redirect '/tasks'
 end
 
 delete '/tasks/:id' do
