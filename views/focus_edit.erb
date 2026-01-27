@@ -1,0 +1,67 @@
+<!-- 编辑小窝标题 -->
+<h2 class="text-center">✏️ 编辑任务</h2>
+<form method="POST" action="/focus/<%= @task[:id] %>">
+  <div class="task-form">
+    <!-- 任务基本信息 -->
+    <div class="form-group">
+      <label>📌 任务标题</label>
+      <input type="text" name="title" value="<%= @task[:title] %>" required class="form-control">
+    </div>
+    
+    <div class="form-group">
+      <label>📅 截止日期 (留空=无期限)</label>
+      <input type="date" name="deadline" value="<%= @task[:deadline] %>" class="form-control">
+    </div>
+    
+    <div class="form-group">
+      <label>⭐ 优先级</label>
+      <select name="priority" class="form-control">
+        <option value="">- 无优先级 -</option>
+        <% (1..5).each do |i| %>
+          <option value="<%= i %>" <%= 'selected' if @task[:priority] == i %>>
+            <%= '★' * i %> (<%= i %>)
+          </option>
+        <% end %>
+      </select>
+    </div>
+    
+    <div class="form-group">
+      <label>🏷️ 标签</label>
+      <input type="text" name="tag" value="<%= @task[:tag] %>" list="tag-suggestions" class="form-control" placeholder="输入标签或选择历史标签">
+      <datalist id="tag-suggestions">
+        <% @available_tags.each do |tag| %>
+          <option value="<%= tag %>"><%= tag %></option>
+        <% end %>
+      </datalist>
+    </div>
+
+    <!-- README 管理 -->
+    <h3 class="text-center" style="margin: 1.5rem 0 1rem;">📖 任务记录管理</h3>
+    <% if @readmes.empty? %>
+      <p class="text-center text-gray">📭 暂无记录~ 专注后记得添加哦！</p>
+    <% else %>
+      <div style="max-height: 200px; overflow-y: auto; border: 1px dashed #e0e0e0; border-radius: 12px; padding: 0.8rem; margin-bottom: 1rem;">
+        <% @readmes.each do |rm| %>
+          <div style="display: flex; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0;">
+            <span style="flex:1; font-size: 0.9rem;"><%= safe_truncate(rm[:content]) %></span>
+            <form action="/readmes/<%= rm[:id] %>" method="post" style="display:inline;" onsubmit="return confirm('确定删除这条记录？')">
+              <input type="hidden" name="_method" value="delete">
+              <button type="submit" class="btn-sm" style="background:#ff6b6b; padding:0.2rem 0.6rem;">❌</button>
+            </form>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+    
+    <div class="form-group">
+      <label>✨ 新增任务记录</label>
+      <textarea name="new_readme" class="form-control" placeholder="记录当前进度/灵感/备注..."></textarea>
+    </div>
+
+    <!-- 保存按钮 -->
+    <div class="text-center" style="margin-top: 1.5rem;">
+      <button type="submit" class="btn">💾 保存并返回专注模式</button>
+      <a href="/focus/<%= @task[:id] %>" class="btn" style="background: #a2d2ff; margin-left: 0.5rem;">🔙 取消</a>
+    </div>
+  </div>
+</form>

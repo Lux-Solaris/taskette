@@ -9,6 +9,10 @@ CLOSED: [2026-01-26 一 22:02]
 CLOSED: [2026-01-26 一 22:05]
 
 
+* DONE Focus Mode with README test
+CLOSED: [2026-01-28 三 04:51]
+
+
 * TODO Add README adding into it
 
 

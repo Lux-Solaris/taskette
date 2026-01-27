@@ -148,6 +148,12 @@ helpers do
     all = DB[:tasks].all
     result = sort_tasks(all, 'deadline')
   end
+
+  def safe_truncate(text, max=50, omission='...')
+    return text if text.length <= max
+
+    "#{text[0, max - omission.length]}#{omission}"
+  end
 end
 
 # 路由部分
@@ -176,6 +182,15 @@ get '/config' do
     @available_tags = DB[:tasks].select_map(:tag).uniq
     erb :config
   end
+end
+
+get '/focus/:id/edit' do
+  # 编辑模式
+  id = params[:id].to_i
+  @task = DB[:tasks].where(id: id).first
+  @readmes = DB[:readmes].where(task_id: id).all
+  @available_tags = DB[:tasks].select_map(:tag).uniq
+  erb :focus_edit
 end
 
 get '/focus' do
@@ -233,7 +248,26 @@ post '/config' do
     DB[:config_filters].where(key: 'tag').update(value: tag)
   end
 
-  redirect '/config'
+  redirect to '/config'
+end
+
+post '/focus/:id' do
+  id = params[:id].to_i
+  original = DB[:tasks].where(id: id).first
+  DB[:tasks].where(id: id).update(title: params[:title]) if original[:title] != params[:title]
+  DB[:tasks].where(id: id).update(deadline: params[:deadline]) if original[:deadline] != params[:deadline]
+  DB[:tasks].where(id: id).update(priority: params[:priority]) if original[:priority] != params[:priority]
+  DB[:tasks].where(id: id).update(tag: params[:tag]) if original[:tag] != params[:tag]
+  DB[:readmes].insert(task_id: id, content: params[:new_readme]) if params[:new_readme].delete("\n\r") != ''
+
+  redirect to "/focus?id=#{id}"
+end
+
+delete '/readme/:id' do
+  id = params[:id].to_i
+  DB[:readmes].where(id: id).delete
+
+  redirect to "/focus/#{id}/edit"
 end
 
 # 调试用 INFO
