@@ -54,6 +54,12 @@
     <div class="text-center" style="margin-top: 1.5rem;">
       <a href="/" class="btn" style="background: #a2d2ff;">🏠 回到看板</a>
       <a href="/focus/<%= @task[:id] %>/edit" class="btn">✏️ 编辑任务</a>
+      <a href="/tasks/<%= @task[:id] %>/complete" 
+         class="btn" 
+         style="background: #8BDBB9; color: #2C5530; margin-left: 0.5rem;"
+         onclick="return confirm('确定完成这个任务吗?\n完成后将返回看板~')">
+        ✅ 完成任务
+      </a>
     </div>
   </div>
 

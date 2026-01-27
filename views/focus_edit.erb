@@ -44,10 +44,14 @@
         <% @readmes.each do |rm| %>
           <div style="display: flex; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0;">
             <span style="flex:1; font-size: 0.9rem;"><%= safe_truncate(rm[:content]) %></span>
-            <form action="/readmes/<%= rm[:id] %>" method="post" style="display:inline;" onsubmit="return confirm('确定删除这条记录？')">
-              <input type="hidden" name="_method" value="delete">
-              <button type="submit" class="btn-sm" style="background:#ff6b6b; padding:0.2rem 0.6rem;">❌</button>
-            </form>
+            <button type="button" 
+                    class="btn-sm" 
+                    style="background:#ff6b6b; padding:0.2rem 0.6rem;"
+                    onclick="deleteReadme(<%= rm[:id] %>)">❌</button>
+            <!-- <form action="/readmes/<%= rm[:id] %>" method="post" style="display:inline;" onsubmit="return confirm('确定删除这条记录？')">
+                 <input type="hidden" name="_method" value="delete">
+                 <button type="submit" class="btn-sm" style="background:#ff6b6b; padding:0.2rem 0.6rem;">❌</button>
+                 </form> -->
           </div>
         <% end %>
       </div>
@@ -65,3 +69,17 @@
     </div>
   </div>
 </form>
+
+<form id="delete-readme-form" method="post" style="display:none;">
+  <input type="hidden" name="_method" value="delete">
+</form>
+
+<script>
+ function deleteReadme(id) {
+   if (!confirm('确定删除这条记录？')) return;
+   
+   const form = document.getElementById('delete-readme-form');
+   form.action = `/readmes/${id}`;
+   form.submit();
+ }
+</script>

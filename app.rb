@@ -187,6 +187,7 @@ end
 get '/focus/:id/edit' do
   # 编辑模式
   id = params[:id].to_i
+  puts id
   @task = DB[:tasks].where(id: id).first
   @readmes = DB[:readmes].where(task_id: id).all
   @available_tags = DB[:tasks].select_map(:tag).uniq
@@ -255,19 +256,22 @@ post '/focus/:id' do
   id = params[:id].to_i
   original = DB[:tasks].where(id: id).first
   DB[:tasks].where(id: id).update(title: params[:title]) if original[:title] != params[:title]
-  DB[:tasks].where(id: id).update(deadline: params[:deadline]) if original[:deadline] != params[:deadline]
-  DB[:tasks].where(id: id).update(priority: params[:priority]) if original[:priority] != params[:priority]
+  deadline = params[:deadline] == '' ? nil : Date.parse(params[:deadline])
+  priority = params[:priority] == '' ? nil : params[:priority].to_i
+  DB[:tasks].where(id: id).update(deadline: deadline) if original[:deadline] != deadline
+  DB[:tasks].where(id: id).update(priority: priority) if original[:priority] != priority
   DB[:tasks].where(id: id).update(tag: params[:tag]) if original[:tag] != params[:tag]
   DB[:readmes].insert(task_id: id, content: params[:new_readme]) if params[:new_readme].delete("\n\r") != ''
 
   redirect to "/focus?id=#{id}"
 end
 
-delete '/readme/:id' do
+delete '/readmes/:id' do
   id = params[:id].to_i
+  task_id = DB[:readmes].where(id: id).get(:task_id)
   DB[:readmes].where(id: id).delete
 
-  redirect to "/focus/#{id}/edit"
+  redirect to "/focus/#{task_id}/edit"
 end
 
 # 调试用 INFO
