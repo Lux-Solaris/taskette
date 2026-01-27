@@ -3,7 +3,7 @@
 <div class="task-list">
   <% task_list = select_tasks.each do |task| %>
     <div class="task-card">
-      <h3><%= task[:title] %> 🌸</h3>
+      <h3><a href="/focus?id=<%= task[:id] %>" style="color: inherit; text-decoration: none"><%= task[:title] %> 🌸</a></h3>
       <% unless task[:deadline].nil? %>
         <p class="deadline">截止: <%= task[:deadline] %></p>
       <% end %>
