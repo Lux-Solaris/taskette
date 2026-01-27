@@ -33,7 +33,7 @@
             <div style="font-size: 0.85rem; color: var(--subtle-gray); margin-bottom: 0.3rem;">
               🕒 <%= rm[:time].strftime('%m/%d %H:%M') if rm[:time] %>
             </div>
-            <div><%= rm[:content].gsub(/\n/, '<br>').html_safe %></div>
+            <div><%= rm[:content].gsub(/<[^>]*>/, '').gsub(/\n/, '<br>') %></div>
           </div>
         <% end %>
       </div>
