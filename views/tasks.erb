@@ -22,7 +22,7 @@
         <td><%= '⭐' * (task[:priority] || 0) %></td>
         <td><%= task[:tag] || '-' %></td>
         <td>
-          <a href="/tasks/<%= task[:id] %>/edit" class="btn btn-sm">✏️ 编辑</a>
+          <a href="/focus/<%= task[:id] %>/edit" class="btn btn-sm">✏️ 编辑</a>
           <form action="/tasks/<%= task[:id] %>" method="post" style="display:inline;">
             <input type="hidden" name="_method" value="delete">
             <button type="submit"
