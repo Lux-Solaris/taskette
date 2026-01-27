@@ -99,6 +99,19 @@ def sort_tasks(tasks, sorter)
   end
 end
 
+def select_tasks_function
+  basic = DB[:tasks].where(state: 1).where{ (deadline >= Date.today) | (deadline =~ nil) }
+  filter = DB[:config_filters].where(key: 'filter').get(:value)
+  sorter = DB[:config_filters].where(key: 'sorter').get(:value)
+
+  filted = filt_tasks(basic, filter)
+  sort_tasks(filted, sorter)
+end
+
+def select_first_task
+  select_tasks_function[0]
+end
+
 # 相关变量
 state_tags = {
   1 => 'TODO',
@@ -113,13 +126,7 @@ state_icon = {
 helpers do
   # For index.erb
   def select_tasks
-    basic = DB[:tasks].where(state: 1).where{ (deadline >= Date.today) | (deadline =~ nil) }
-    puts basic.all
-    filter = DB[:config_filters].where(key: 'filter').get(:value)
-    sorter = DB[:config_filters].where(key: 'sorter').get(:value)
-
-    filted = filt_tasks(basic, filter)
-    sort_tasks(filted, sorter)
+    select_tasks_function
   end
 
   def greetings
@@ -173,6 +180,15 @@ end
 
 get '/focus' do
   # 专注模式
+  if params[:id].nil? || params[:id].empty?
+    id = select_first_task[:id]
+    redirect to "/focus?id=#{id}"
+  else
+    id = params[:id].to_i
+    @task = DB[:tasks].where(id: id).first
+    @readmes = DB[:readmes].where(task_id: id).all
+    erb :focus_show
+  end
 end
 
 # 一些交互 / Interactions
