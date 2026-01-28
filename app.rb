@@ -197,7 +197,8 @@ end
 get '/focus' do
   # 专注模式
   if params[:id].nil? || params[:id].empty?
-    id = select_first_task[:id]
+    first_task = select_first_task
+    id = first_task.nil? ? 0 : first_task[:id]
     redirect to "/focus?id=#{id}"
   else
     id = params[:id].to_i
