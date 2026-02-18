@@ -129,20 +129,6 @@ helpers do
     select_tasks_function
   end
 
-  def greetings
-    hour = Time.now.hour
-    case hour
-
-    when 5..11  then '早安呀～元气满满的一天开始啦! (๑•̀ㅂ•́)ﾉ✧'
-    when 12..13 then '中午好! 记得吃饭饭哦～☀️'
-    when 14..17 then '下午好! 一起摸摸鱼吧～(ﾉ≧∀≦)ﾉ'
-    when 18..19 then '咕噜噜～该吃饭啦！今天也要好好喂饱自己呀～(๑•ᴗ•๑)♡'
-    when 20..22 then '晚上好! 星星在对你眨眼睛✨'
-    else
-      '呜哇～快去睡觉觉! 看板酱盯着你呢！(;′⌒`)'
-    end
-  end
-
   # For tasks.erb
   def all_tasks
     all = DB[:tasks].all
