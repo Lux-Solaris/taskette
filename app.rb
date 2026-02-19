@@ -179,7 +179,7 @@ get '/focus/:id/edit' do
   @task = DB[:tasks].where(id: id).first
   @readmes = DB[:readmes].where(task_id: id).all
   @available_tags = DB[:tasks].select_map(:tag).uniq
-  erb :focus_edit
+  erb :edit
 end
 
 get '/focus' do
