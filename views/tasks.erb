@@ -11,7 +11,7 @@
     </tr>
   </thead>
   <tbody>
-    <% all_tasks.each do |task| %>
+    <% @tasks.each do |task| %>
       <tr class="task-row" <%= 'completed' if task[:state] == 2 %>>
         <!-- <td><%= '✅' if task[:state].zero? %></td> -->
         <td>

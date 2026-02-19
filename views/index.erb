@@ -1,6 +1,6 @@
 <h2>今日任务看板 📝</h2>
 <div class="task-list">
-  <% task_list = @tasks.each do |task| %>
+  <% @tasks.each do |task| %>
     <div class="task-card <%= 'overdue-card' if task_overdue?(task) %>">
       <% if task_overdue?(task) %>
         <span class="overdue-badge">⚠️ 已过期</span>
@@ -20,7 +20,7 @@
       </form>
     </div>
   <% end %>
-  <% unless task_list.empty? %>
+  <% unless @tasks.empty? %>
     <p class="hint">✨ 点击卡片左下角"✓"标记完成!</p>
   <% else %>
     <p class="hint">🌸 没有任务啦! 去休息吧~</p>

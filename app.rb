@@ -113,6 +113,11 @@ def select_first_task
   select_tasks[0]
 end
 
+def select_all_tasks
+  all = DB[:tasks].all
+  result = sort_tasks(all, 'deadline')
+end
+
 # 相关变量
 state_tags = {
   1 => 'TODO',
@@ -125,12 +130,6 @@ state_icon = {
 
 # 帮助函数
 helpers do
-  # For tasks.erb
-  def all_tasks
-    all = DB[:tasks].all
-    result = sort_tasks(all, 'deadline')
-  end
-
   def safe_truncate(text, max=50, omission='...')
     return text if text.length <= max
 
@@ -157,6 +156,7 @@ get '/tasks' do
   # 任务仓库
   @sicon = state_icon
   @stags = state_tags
+  @tasks = select_all_tasks
   erb :tasks
 end
 
