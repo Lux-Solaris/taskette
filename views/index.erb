@@ -15,7 +15,9 @@
       <% unless task[:tag].nil? %>
         <p>标签: <%= task[:tag] %></p>
       <% end %>
-      <a href="/tasks/<%= task[:id] %>/complete" class="btn">✓ 标记完成</a>
+      <form action="/tasks/<%= task[:id] %>/complete" method="post" style="display:inline;">
+        <button type="submit" class="btn">✓ 标记完成</button>
+      </form>
     </div>
   <% end %>
   <% unless task_list.empty? %>

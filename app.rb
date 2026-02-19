@@ -198,7 +198,7 @@ end
 
 # 一些交互 / Interactions
 
-get '/tasks/:id/complete' do
+post '/tasks/:id/complete' do
   complete_one_task(params[:id])
   redirect to '/'
 end
