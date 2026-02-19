@@ -186,7 +186,7 @@ get '/focus' do
     id = params[:id].to_i
     @task = DB[:tasks].where(id: id).first
     @readmes = DB[:readmes].where(task_id: id).all
-    erb :focus_show
+    erb :focus
   end
 end
 
