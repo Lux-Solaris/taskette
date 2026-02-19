@@ -1,6 +1,7 @@
 <!-- 编辑小窝标题 -->
 <h2 class="text-center">✏️ 编辑任务</h2>
 <form method="POST" action="/focus/<%= @task[:id] %>">
+  <input type="hidden" name="_method" value="put">
   <div class="task-form">
     <!-- 任务基本信息 -->
     <div class="form-group">
