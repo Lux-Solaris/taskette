@@ -241,7 +241,7 @@ post '/config' do
   redirect to '/config'
 end
 
-post '/focus/:id' do
+put '/tasks/:id' do
   id = params[:id].to_i
   original = DB[:tasks].where(id: id).first
   DB[:tasks].where(id: id).update(title: params[:title]) if original[:title] != params[:title]
