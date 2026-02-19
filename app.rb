@@ -136,6 +136,11 @@ helpers do
 
     "#{text[0, max - omission.length]}#{omission}"
   end
+
+  def task_overdue?(task)
+    return false if task[:deadline].nil?
+    task[:deadline] < Date.today
+  end
 end
 
 # 路由部分
