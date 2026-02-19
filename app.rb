@@ -99,7 +99,7 @@ def sort_tasks(tasks, sorter)
   end
 end
 
-def select_tasks_function
+def select_tasks
   basic = DB[:tasks].where(state: 1).where{ (deadline >= Date.today) | (deadline =~ nil) }
   filter = DB[:config_filters].where(key: 'filter').get(:value)
   sorter = DB[:config_filters].where(key: 'sorter').get(:value)
@@ -109,7 +109,7 @@ def select_tasks_function
 end
 
 def select_first_task
-  select_tasks_function[0]
+  select_tasks[0]
 end
 
 # 相关变量
@@ -124,11 +124,6 @@ state_icon = {
 
 # 帮助函数
 helpers do
-  # For index.erb
-  def select_tasks
-    select_tasks_function
-  end
-
   # For tasks.erb
   def all_tasks
     all = DB[:tasks].all
@@ -148,6 +143,7 @@ use Rack::MethodOverride
 get '/' do
   # 看板
   # 'Hello, Taskette!✨'
+  @tasks = select_tasks
   erb :index
 end
 
