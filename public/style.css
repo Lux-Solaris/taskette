@@ -105,9 +105,32 @@ body > main > h2 {
     box-shadow: 0 2px 8px var(--shadow-light);
     border-left: 4px solid var(--light-mint);
     transition: transform 0.2s ease;
+    position: relative;
 }
 .task-card:hover {
     transform: translateY(-2px);
+}
+
+/* ===== 过期任务：红色警报 ===== */
+.task-card.overdue-card {
+    border-left: 4px solid #ff6b6b;
+    background: #fff5f5;
+}
+.overdue-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    color: #ff6b6b;
+    font-weight: bold;
+    font-size: 0.85rem;
+    background: #fff5f5;
+    padding: 0.3rem 0.6rem;
+    border-radius: 12px;
+    border: 1px solid #ff6b6b;
+}
+.overdue-text {
+    color: #ff6b6b;
+    font-weight: bold;
 }
 
 /* ===== 按钮：圆润可爱 ===== */
