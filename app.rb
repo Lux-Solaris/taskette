@@ -77,7 +77,8 @@ def filt_tasks(tasks, filter)
   case filter
   when 'ddl'
     deadtime = DB[:config_filters].where(key: 'day').get(:value).to_i
-    tasks.where { deadline <= Date.today + deadtime }.all
+    tasks.where { deadline >= Date.today }
+         .where { deadline <= Date.today + deadtime }.all
   when 'tag'
     tag = DB[:config_filters].where(key: 'tag').get(:value)
     tasks.where(tag: tag).all
@@ -100,7 +101,7 @@ def sort_tasks(tasks, sorter)
 end
 
 def select_tasks
-  basic = DB[:tasks].where(state: 1).where{ (deadline >= Date.today) | (deadline =~ nil) }
+  basic = DB[:tasks].where(state: 1)
   filter = DB[:config_filters].where(key: 'filter').get(:value)
   sorter = DB[:config_filters].where(key: 'sorter').get(:value)
 
