@@ -16,4 +16,17 @@
 
 * 部署说明
 
-- 待完成.
+- 请确保你有相对好的网络连接; 好的网络连接 *不包括* 科学上网
+  + /使用 *[[https://gems.ruby-china.com/][Ruby-China]]* 镜像源, 因此无需科学上网/
+
+- 请确保本地拥有 Ruby: ~bundle~, 若没有, 请自行安装.
+
+- 安装倚赖包
+  #+begin_src bash
+    bundle install
+  #+end_src
+
+- 启动服务
+  #+begin_src bash
+    bundle exec ruby app.rb
+  #+end_src
