@@ -172,7 +172,7 @@ get '/config' do
   end
 end
 
-get '/focus/:id/edit' do
+get '/tasks/:id/edit' do
   # 编辑模式
   id = params[:id].to_i
   puts id
@@ -260,7 +260,7 @@ delete '/readmes/:id' do
   task_id = DB[:readmes].where(id: id).get(:task_id)
   DB[:readmes].where(id: id).delete
 
-  redirect to "/focus/#{task_id}/edit"
+  redirect to "/tasks/#{task_id}/edit"
 end
 
 # 调试用 INFO

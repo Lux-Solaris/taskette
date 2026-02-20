@@ -53,7 +53,7 @@
     <!-- 底部操作 -->
     <div class="text-center" style="margin-top: 1.5rem;">
       <a href="/" class="btn" style="background: #a2d2ff;">🏠 回到看板</a>
-      <a href="/focus/<%= @task[:id] %>/edit" class="btn">✏️ 编辑任务</a>
+      <a href="/tasks/<%= @task[:id] %>/edit" class="btn">✏️ 编辑任务</a>
       <form action="/tasks/<%= @task[:id] %>/complete" method="post" style="display:inline;">
         <button type="submit"
                 class="btn"
