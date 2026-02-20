@@ -13,11 +13,13 @@ CLOSED: [2026-01-26 一 22:05]
 CLOSED: [2026-01-28 三 04:51]
 
 
-* TODO Add README adding into it
+* DONE Add README adding into it
+CLOSED: [2026-02-20 周五 23:59]
 
 
-* Wishes to do [0/3]
-** TODO Change button 标记完成 From GET to POST
+* Wishes to do [1/4]
+** DONE Change button 标记完成 From GET to POST
+CLOSED: [2026-02-20 周五 23:59]
 + Location: ~views/index.erb~
 
 ** TODO Add time-stamp for task-complete
