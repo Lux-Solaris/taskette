@@ -172,6 +172,14 @@ get '/config' do
   end
 end
 
+get '/tasks/:id' do
+  # 专注模式
+  id = params[:id].to_i
+  @task = DB[:tasks].where(id: id).first
+  @readmes = DB[:readmes].where(task_id: id).all
+  erb :focus
+end
+
 get '/tasks/:id/edit' do
   # 编辑模式
   id = params[:id].to_i
@@ -183,17 +191,10 @@ get '/tasks/:id/edit' do
 end
 
 get '/focus' do
-  # 专注模式
-  if params[:id].nil? || params[:id].empty?
-    first_task = select_first_task
-    id = first_task.nil? ? 0 : first_task[:id]
-    redirect to "/focus?id=#{id}"
-  else
-    id = params[:id].to_i
-    @task = DB[:tasks].where(id: id).first
-    @readmes = DB[:readmes].where(task_id: id).all
-    erb :focus
-  end
+  # 专注模式 - 默认
+  first_task = select_first_task
+  id = first_task.nil? ? 0 : first_task[:id]
+  redirect to "/tasks/#{id}"
 end
 
 # 一些交互 / Interactions
@@ -252,7 +253,7 @@ put '/tasks/:id' do
   DB[:tasks].where(id: id).update(tag: params[:tag]) if original[:tag] != params[:tag]
   DB[:readmes].insert(task_id: id, content: params[:new_readme]) if params[:new_readme].delete("\n\r") != ''
 
-  redirect to "/focus?id=#{id}"
+  redirect to "/tasks/#{id}"
 end
 
 delete '/readmes/:id' do

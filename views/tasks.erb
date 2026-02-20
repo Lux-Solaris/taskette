@@ -17,7 +17,7 @@
         <td>
           <%= @sicon[task[:state]] %>
         </td>
-        <td><a href="/focus?id=<%= task[:id] %>" style="color: inherit; text-decoration: none"><%= task[:title] %></a></td>
+        <td><a href="/tasks/<%= task[:id] %>" style="color: inherit; text-decoration: none"><%= task[:title] %></a></td>
         <td><%= task[:deadline] || '<span class="text-gray">-无DDL-</span>' %></td>
         <td><%= '⭐' * (task[:priority] || 0) %></td>
         <td><%= task[:tag] || '-' %></td>
