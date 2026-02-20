@@ -9,8 +9,10 @@ gem "puma"
 gem "sqlite3"
 gem "sequel"
 
-gem "pry"
-gem "pry-byebug"
-gem "pry-doc"
-gem "pry-theme"
-gem "reline"
+group :development, :test do
+  gem "pry"
+  gem "pry-byebug"
+  gem "pry-doc"
+  gem "pry-theme"
+  gem "reline"
+end
