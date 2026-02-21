@@ -44,7 +44,7 @@ ensure_default_filter
 MAX_DATE = Date.new(9999, 12, 31)
 
 module TaskMan
-  def self.create(title: '', state: 1,
+  def self.create(title: '', state: STATE_TODO,
                   deadline: '', priority: '', tag: '', **_rest)
     deadline = deadline == '' ? nil : Date.parse(deadline)
     priority = priority == '' ? nil : priority.to_i
@@ -55,7 +55,7 @@ module TaskMan
   end
 
   def self.complete(id)
-    DB[:tasks].where(id: id).update(state: 0)
+    DB[:tasks].where(id: id).update(state: STATE_DONE)
   end
 
   def self.delete(id)
@@ -63,7 +63,7 @@ module TaskMan
   end
 
   def self.list
-    basic = DB[:tasks].where(state: 1)
+    basic = DB[:tasks].where(state: STATE_TODO)
     filter = DB[:config_filters].where(key: 'filter').get(:value)
     sorter = DB[:config_filters].where(key: 'sorter').get(:value)
 
