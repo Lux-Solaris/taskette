@@ -5,6 +5,19 @@ require 'sequel'
 DB = Sequel.connect('sqlite://base.db')
 DB.run("PRAGMA foreign_keys = ON;")
 
+STATE_TODO = 1
+STATE_DONE = 0
+
+STATE_TAGS = {
+  STATE_TODO => 'TODO',
+  STATE_DONE => 'DONE'
+}.freeze
+
+STATE_ICON = {
+  STATE_TODO => '⬜',
+  STATE_DONE => '✅'
+}.freeze
+
 DB.create_table?(:tasks) do
   primary_key :id
   String  :title, null: false # 任务内容
@@ -59,13 +72,13 @@ module TaskMan
   end
 
   def self.all
-    all = DB[:tasks].all
-    result = sort_tasks(all, 'deadline')
+    raw = DB[:tasks].all
+    result = sort_tasks(raw, 'deadline')
   end
 
   private
 
-  def filt_tasks(tasks, filter)
+  def self.filt_tasks(tasks, filter)
     case filter
     when 'ddl'
       deadtime = DB[:config_filters].where(key: 'day').get(:value).to_i
@@ -79,7 +92,7 @@ module TaskMan
     end
   end
 
-  def sort_tasks(tasks, sorter)
+  def self.sort_tasks(tasks, sorter)
     case sorter
     when 'priority'
       tasks.sort_by { |row| [-(row[:priority] || 0), row[:deadline] || MAX_DATE] }
