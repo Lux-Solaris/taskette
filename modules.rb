@@ -45,7 +45,7 @@ MAX_DATE = Date.new(9999, 12, 31)
 
 module TaskMan
   def self.create(title: '', state: STATE_TODO,
-                  deadline: '', priority: '', tag: '', **_rest)
+                  deadline: '', priority: '', tag: '')
     deadline = deadline == '' ? nil : Date.parse(deadline)
     priority = priority == '' ? nil : priority.to_i
     tag = nil if tag == ''

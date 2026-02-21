@@ -22,63 +22,42 @@ end
 # 路由部分
 use Rack::MethodOverride
 
+# ===== 首页和通用资源 =====
+
 get '/' do
-  # 看板
   # 'Hello, Taskette!✨'
   @tasks = TaskMan.list
   erb :index
 end
 
+get '/focus' do
+  first_task = TaskMan.list.first
+  id = first_task.nil? ? 0 : first_task[:id]
+  redirect to "/tasks/#{id}"
+end
+
+# ===== 任务资源 =====
+
 get '/tasks' do
-  # 任务仓库
   @sicon = STATE_ICON
   @stags = STATE_TAGS
   @tasks = TaskMan.all
   erb :tasks
 end
 
-get '/config' do
-  # 设置
-  if params[:filter].nil? || params[:filter].empty?
-    filter = DB[:config_filters].where(key: 'filter').get(:value)
-    redirect to "/config?filter=#{filter}"
-  else
-    @config = DB[:config_filters].all.map { |h| [h[:key].to_sym, h[:value]] }.to_h
-    @available_tags = DB[:tasks].select_map(:tag).uniq
-    erb :config
-  end
-end
-
-get '/tasks/:id' do
-  # 专注模式
-  id = params[:id].to_i
-  @task = DB[:tasks].where(id: id).first
-  @readmes = DB[:readmes].where(task_id: id).all
-  erb :focus
-end
-
 get '/tasks/:id/edit' do
-  # 编辑模式
   id = params[:id].to_i
-  puts id
   @task = DB[:tasks].where(id: id).first
   @readmes = DB[:readmes].where(task_id: id).all
   @available_tags = DB[:tasks].select_map(:tag).uniq
   erb :edit
 end
 
-get '/focus' do
-  # 专注模式 - 默认
-  first_task = TaskMan.list.first
-  id = first_task.nil? ? 0 : first_task[:id]
-  redirect to "/tasks/#{id}"
-end
-
-# 一些交互 / Interactions
-
-post '/tasks/:id/complete' do
-  TaskMan.complete(params[:id])
-  redirect to '/'
+get '/tasks/:id' do
+  id = params[:id].to_i
+  @task = DB[:tasks].where(id: id).first
+  @readmes = DB[:readmes].where(task_id: id).all
+  erb :focus
 end
 
 post '/tasks' do
@@ -95,9 +74,51 @@ post '/tasks' do
   redirect to '/tasks'
 end
 
+post '/tasks/:id/complete' do
+  TaskMan.complete(params[:id])
+  redirect to '/'
+end
+
+put '/tasks/:id' do
+  id = params[:id].to_i
+  original = DB[:tasks].where(id: id).first
+  DB[:tasks].where(id: id).update(title: params[:title]) if original[:title] != params[:title]
+  deadline = params[:deadline] == '' ? nil : Date.parse(params[:deadline])
+  priority = params[:priority] == '' ? nil : params[:priority].to_i
+  DB[:tasks].where(id: id).update(deadline: deadline) if original[:deadline] != deadline
+  DB[:tasks].where(id: id).update(priority: priority) if original[:priority] != priority
+  DB[:tasks].where(id: id).update(tag: params[:tag]) if original[:tag] != params[:tag]
+  DB[:readmes].insert(task_id: id, content: params[:new_readme]) if params[:new_readme].delete("\n\r") != ''
+
+  redirect to "/tasks/#{id}"
+end
+
 delete '/tasks/:id' do
   TaskMan.delete(params[:id])
   redirect to '/tasks'
+end
+
+# ===== README 资源 =====
+
+delete '/readmes/:id' do
+  id = params[:id].to_i
+  task_id = DB[:readmes].where(id: id).get(:task_id)
+  DB[:readmes].where(id: id).delete
+
+  redirect to "/tasks/#{task_id}/edit"
+end
+
+# ===== 配置资源 =====
+
+get '/config' do
+  if params[:filter].nil? || params[:filter].empty?
+    filter = DB[:config_filters].where(key: 'filter').get(:value)
+    redirect to "/config?filter=#{filter}"
+  else
+    @config = DB[:config_filters].all.map { |h| [h[:key].to_sym, h[:value]] }.to_h
+    @available_tags = DB[:tasks].select_map(:tag).uniq
+    erb :config
+  end
 end
 
 post '/config' do
@@ -117,28 +138,6 @@ post '/config' do
   end
 
   redirect to '/config'
-end
-
-put '/tasks/:id' do
-  id = params[:id].to_i
-  original = DB[:tasks].where(id: id).first
-  DB[:tasks].where(id: id).update(title: params[:title]) if original[:title] != params[:title]
-  deadline = params[:deadline] == '' ? nil : Date.parse(params[:deadline])
-  priority = params[:priority] == '' ? nil : params[:priority].to_i
-  DB[:tasks].where(id: id).update(deadline: deadline) if original[:deadline] != deadline
-  DB[:tasks].where(id: id).update(priority: priority) if original[:priority] != priority
-  DB[:tasks].where(id: id).update(tag: params[:tag]) if original[:tag] != params[:tag]
-  DB[:readmes].insert(task_id: id, content: params[:new_readme]) if params[:new_readme].delete("\n\r") != ''
-
-  redirect to "/tasks/#{id}"
-end
-
-delete '/readmes/:id' do
-  id = params[:id].to_i
-  task_id = DB[:readmes].where(id: id).get(:task_id)
-  DB[:readmes].where(id: id).delete
-
-  redirect to "/tasks/#{task_id}/edit"
 end
 
 # 调试用 INFO
