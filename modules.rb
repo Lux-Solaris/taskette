@@ -139,7 +139,7 @@ module ReadmeMan
   def self.add?(task_id:, content:)
     return if empty_text?(content)
 
-    add(task_id, content)
+    add(task_id: task_id, content: content)
   end
 
   def self.add(task_id:, content:)
