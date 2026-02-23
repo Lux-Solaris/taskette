@@ -66,6 +66,46 @@
     --color-white: #ffffff;
 }
 
+/* ===== 黑夜模式 ===== */
+body.dark-mode {
+    /* ===== 主题色系统 ===== */
+    --color-primary: #ff85a2;
+    --color-primary-hover: #ff5c9f;
+    --color-secondary: #7eb3e8;
+    --color-accent: #9fe8a8;
+    
+    /* ===== 中性色系统 ===== */
+    --color-bg-base: #1a1a2e;
+    --color-bg-surface: #16213e;
+    --color-bg-hover: #2a2a4a;
+    --color-bg-disabled: #252540;
+    
+    /* ===== 文字色系统 ===== */
+    --color-text-primary: #e0e0e0;
+    --color-text-secondary: #a0a0a0;
+    --color-text-disabled: #666666;
+    --color-text-footer: #888899;
+    --color-text-on-success: #a8d5b5;
+    
+    /* ===== 边框色系统 ===== */
+    --color-border-default: #3a3a5a;
+    --color-border-light: #2a2a4a;
+    
+    /* ===== 状态色系统 ===== */
+    --color-success: #6bc49e;
+    --color-warning: #ff9f3d;
+    --color-error: #ff5555;
+    --color-error-bg: #2a1a1a;
+    
+    /* ===== 阴影色系统 ===== */
+    --shadow-sm: rgba(0, 0, 0, 0.3);
+    --shadow-primary: rgba(255, 133, 162, 0.4);
+    --shadow-primary-hover: rgba(255, 133, 162, 0.5);
+    
+    /* ===== 基础色 ===== */
+    --color-white: #16213e;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -361,4 +401,37 @@ textarea {
         width: 100%;
         padding: 0.6rem;
     }
+}
+
+/* ===== 黑夜模式切换按钮 ===== */
+.theme-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    background: var(--color-bg-surface);
+    border: 2px solid var(--color-border-default);
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px var(--shadow-sm);
+    z-index: 1000;
+}
+.theme-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px var(--shadow-primary);
+}
+.theme-toggle:active {
+    transform: scale(0.95);
+}
+
+/* 黑夜模式下的切换按钮样式 */
+body.dark-mode .theme-toggle {
+    background: var(--color-bg-hover);
+    border-color: var(--color-primary);
 }

@@ -24,5 +24,47 @@
       <p>&copy; 2026 看板酱的小窝 | <a href="https://opensource.org/licenses/MIT" style="color: var(--color-text-footer); text-decoration: underline;">MIT License</a> | Icons from <a href="https://www.flaticon.com/free-icons/conclusion" title="conclusion icons" target="_blank" style="color: var(--color-text-footer); text-decoration: underline;">Flaticon</a> by Freepik</p>
       <p>和你一起, 完成每一件小事 💖</p>
     </footer>
+
+    <button class="theme-toggle" id="theme-toggle" aria-label="切换主题">🌙</button>
+
+    <script>
+      const themeToggle = document.getElementById('theme-toggle');
+      const body = document.body;
+
+      function setTheme(isDark) {
+        if (isDark) {
+          body.classList.add('dark-mode');
+          themeToggle.textContent = '☀️';
+          localStorage.setItem('theme', 'dark');
+        } else {
+          body.classList.remove('dark-mode');
+          themeToggle.textContent = '🌙';
+          localStorage.setItem('theme', 'light');
+        }
+      }
+
+      function toggleTheme() {
+        const isDark = !body.classList.contains('dark-mode');
+        setTheme(isDark);
+      }
+
+      themeToggle.addEventListener('click', toggleTheme);
+
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        setTheme(true);
+      } else if (savedTheme === 'light') {
+        setTheme(false);
+      } else {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        setTheme(prefersDark);
+      }
+
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+          setTheme(e.matches);
+        }
+      });
+    </script>
   </body>
 </html>
