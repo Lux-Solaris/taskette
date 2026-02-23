@@ -45,14 +45,10 @@
         <% @readmes.each do |rm| %>
           <div style="display: flex; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid var(--color-border-default);">
             <span style="flex:1; font-size: 0.9rem;"><%= safe_truncate(rm[:content]) %></span>
-            <button type="button" 
-                    class="btn-sm" 
-                    style="background:var(--color-error); padding:0.2rem 0.6rem;"
-                    onclick="deleteReadme(<%= rm[:id] %>)">❌</button>
-            <!-- <form action="/readmes/<%= rm[:id] %>" method="post" style="display:inline;" onsubmit="return confirm('确定删除这条记录？')">
-                 <input type="hidden" name="_method" value="delete">
-                 <button type="submit" class="btn-sm" style="background:var(--alert-red); padding:0.2rem 0.6rem;">❌</button>
-                 </form> -->
+            <button type="button"
+                    class="btn btn-sm"
+                    style="background:var(--color-error);"
+                    onclick="deleteReadme(<%= rm[:id] %>)">✖</button>
           </div>
         <% end %>
       </div>
