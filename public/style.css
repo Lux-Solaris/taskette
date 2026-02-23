@@ -405,35 +405,54 @@ textarea {
     }
 }
 
-/* ===== 黑夜模式切换按钮 ===== */
+/* ===== 黑夜模式切换按钮（复用通用样式）===== */
 .theme-toggle {
-    position: fixed;
     top: 1rem;
     right: 1rem;
     background: var(--color-bg-surface);
     border: 2px solid var(--color-border-default);
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     font-size: 1.5rem;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px var(--shadow-sm);
-    z-index: 1000;
-}
-.theme-toggle:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 12px var(--shadow-primary);
-}
-.theme-toggle:active {
-    transform: scale(0.95);
 }
 
 /* 黑夜模式下的切换按钮样式 */
 body.dark-mode .theme-toggle {
     background: var(--color-bg-hover);
     border-color: var(--color-primary);
+}
+
+/* ===== 通用固定按钮 ===== */
+.btn-fixed {
+    position: fixed;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px var(--shadow-sm);
+    z-index: 1000;
+}
+
+.btn-fixed:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px var(--shadow-primary);
+}
+
+.btn-fixed:active {
+    transform: scale(0.95);
+}
+
+/* ===== 滚动到底部按钮（复用通用样式）===== */
+.scroll-to-bottom {
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--color-primary);
+    font-size: 1.2rem;
+}
+
+.scroll-to-bottom:hover {
+    background: var(--color-primary-hover);
 }

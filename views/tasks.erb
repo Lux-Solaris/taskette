@@ -35,8 +35,12 @@
   </tbody>
 </table>
 
+<button id="scroll-to-add" class="btn-fixed scroll-to-bottom" aria-label="滚动到添加任务">
+  ⬇️
+</button>
+
 <%# 新建任务表单 %>
-<h2>➕ 添加新任务</h2>
+<h2 id="add-task-heading">➕ 添加新任务</h2>
 <form action="/tasks" method="post" class="task-form">
   <!-- 标题 (必填) -->
   <label>✨ 任务标题</label>
@@ -68,3 +72,10 @@
   <!-- 提交按钮 -->
   <button type="submit" class="btn">✓ 添加任务</button>
 </form>
+
+<script>
+  document.getElementById('scroll-to-add').addEventListener('click', () => {
+    const heading = document.getElementById('add-task-heading');
+    heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+</script>
