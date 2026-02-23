@@ -17,10 +17,11 @@ CLOSED: [2026-01-28 三 04:51]
 CLOSED: [2026-02-20 周五 23:59]
 
 
-* TODO Module-fy app.rb's functions [0/3]
-+ [ ] add in require
-+ [ ] fully replace the tasks' funs
-+ [ ] fully replace the readmes' funs
+* DONE Module-fy app.rb's functions [3/3]
+CLOSED: [2026-02-23 周一 13:05]
++ [X] add in require
++ [X] fully replace the tasks' funs
++ [X] fully replace the readmes' funs
 
 
 * Wishes to do [1/4]

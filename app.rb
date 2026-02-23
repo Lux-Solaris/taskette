@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 
 require 'sinatra'
-require 'sequel'
 require_relative 'modules'
 
 
 # 帮助函数
 helpers do
-  def safe_truncate(text, max=50, omission='...')
+  def safe_truncate(text, max = 50, omission = '...')
     return text if text.length <= max
 
     "#{text[0, max - omission.length]}#{omission}"
@@ -47,26 +46,25 @@ end
 
 get '/tasks/:id/edit' do
   id = params[:id].to_i
-  @task = DB[:tasks].where(id: id).first
-  @readmes = DB[:readmes].where(task_id: id).all
-  @available_tags = DB[:tasks].select_map(:tag).uniq
+  @task = TaskMan.find(id)
+  @readmes = ReadmeMan.list_match(task_id: id)
+  @available_tags = TaskMan.all_tags
   erb :edit
 end
 
 get '/tasks/:id' do
   id = params[:id].to_i
-  @task = DB[:tasks].where(id: id).first
-  @readmes = DB[:readmes].where(task_id: id).all
+  @task = TaskMan.find(id)
+  @readmes = ReadmeMan.list_match(task_id: id)
   erb :focus
 end
 
 post '/tasks' do
-  id = TaskMan.create(
-    title: params[:title],
-    deadline: params[:deadline],
-    priority: params[:priority],
-    tag: params[:tag]
-  )
+  id = TaskMan.create(title: params[:title],
+                      deadline: params[:deadline],
+                      priority: params[:priority],
+                      tag: params[:tag])
+
   unless params[:readme] == ''
     ReadmeMan.add(task_id: id,
                   content: params[:readme])
@@ -81,14 +79,14 @@ end
 
 put '/tasks/:id' do
   id = params[:id].to_i
-  original = DB[:tasks].where(id: id).first
-  DB[:tasks].where(id: id).update(title: params[:title]) if original[:title] != params[:title]
-  deadline = params[:deadline] == '' ? nil : Date.parse(params[:deadline])
-  priority = params[:priority] == '' ? nil : params[:priority].to_i
-  DB[:tasks].where(id: id).update(deadline: deadline) if original[:deadline] != deadline
-  DB[:tasks].where(id: id).update(priority: priority) if original[:priority] != priority
-  DB[:tasks].where(id: id).update(tag: params[:tag]) if original[:tag] != params[:tag]
-  DB[:readmes].insert(task_id: id, content: params[:new_readme]) if params[:new_readme].delete("\n\r") != ''
+
+  TaskMan.update(id: id,
+                 title: params[:title],
+                 deadline: params[:deadline],
+                 priority: params[:priority],
+                 tag: params[:tag])
+
+  ReadmeMan.add?(task_id: id, content: params[:new_readme])
 
   redirect to "/tasks/#{id}"
 end
@@ -102,8 +100,7 @@ end
 
 delete '/readmes/:id' do
   id = params[:id].to_i
-  task_id = DB[:readmes].where(id: id).get(:task_id)
-  DB[:readmes].where(id: id).delete
+  task_id = ReadmeMan.delete(id)
 
   redirect to "/tasks/#{task_id}/edit"
 end
@@ -112,29 +109,29 @@ end
 
 get '/config' do
   if params[:filter].nil? || params[:filter].empty?
-    filter = DB[:config_filters].where(key: 'filter').get(:value)
+    filter = ConfigMan.filter
     redirect to "/config?filter=#{filter}"
   else
-    @config = DB[:config_filters].all.map { |h| [h[:key].to_sym, h[:value]] }.to_h
-    @available_tags = DB[:tasks].select_map(:tag).uniq
+    @config = ConfigMan.config_pairs_hashed
+    @available_tags = TaskMan.all_tags
     erb :config
   end
 end
 
 post '/config' do
-  filter = params[:current_filter] || 'all'
-  sorter = params[:sorter] || 'priority'
+  new_filter = params[:current_filter] || 'all'
+  new_sorter = params[:sorter] || 'priority'
 
-  DB[:config_filters].where(key: 'filter').update(value: filter)
-  DB[:config_filters].where(key: 'sorter').update(value: sorter)
+  ConfigMan.filter = new_filter
+  ConfigMan.sorter = new_sorter
 
-  if filter == 'ddl'
-    day = [params[:day].to_i, 1].max.to_s
-    DB[:config_filters].where(key: 'day').update(value: day)
+  if new_filter == 'ddl'
+    new_day = [params[:day].to_i, 1].max.to_s
+    ConfigMan.day = new_day
 
-  elsif filter == 'tag'
-    tag = params[:tag] || ''
-    DB[:config_filters].where(key: 'tag').update(value: tag)
+  elsif new_filter == 'tag'
+    new_tag = params[:tag] || ''
+    ConfigMan.tag = new_tag
   end
 
   redirect to '/config'

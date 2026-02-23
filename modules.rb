@@ -3,7 +3,7 @@
 require 'sequel'
 
 DB = Sequel.connect('sqlite://base.db')
-DB.run("PRAGMA foreign_keys = ON;")
+DB.run('PRAGMA foreign_keys = ON;')
 
 STATE_TODO = 1
 STATE_DONE = 0
@@ -27,20 +27,30 @@ DB.create_table?(:tasks) do
   String  :tag                # 任务标签
 end
 
-DB.create_table?(:config_filters) do
+DB.create_table?(:readmes) do
+  primary_key :id
+  foreign_key :task_id, :tasks, null: false, on_delete: :cascade
+  String      :content, text: true
+  DateTime    :time
+end
+
+DB.create_table?(:config) do
   String :key, primary_key: true
   String :value, null: false
 end
 
-def ensure_default_filter
-  config = DB[:config_filters]
-  config.insert(key: 'filter', value: 'all') unless config.where(key: 'filter').any?
-  config.insert(key: 'day', value: '7') unless config.where(key: 'day').any?
-  config.insert(key: 'tag', value: '') unless config.where(key: 'tag').any?
-  config.insert(key: 'sorter', value: 'priority') unless config.where(key: 'sorter').any?
+def ensure_default_config
+  config = DB[:config]
+  config_pairs = {
+    'filter' => 'all',
+    'day' => '7',
+    'tag' => '',
+    'sorter' => 'priority'
+  }
+  config_pairs.each_pair { |k, v| config.insert(key: k, value: v) unless config.where(key: k).any? }
 end
 
-ensure_default_filter
+ensure_default_config
 MAX_DATE = Date.new(9999, 12, 31)
 
 module TaskMan
@@ -54,6 +64,16 @@ module TaskMan
                       deadline: deadline, priority: priority, tag: tag)
   end
 
+  def self.update(id:, title:, deadline:, priority:, tag:)
+    original = DB[:tasks].where(id: id).first
+    deadline = deadline == '' ? nil : Date.parse(deadline)
+    priority = priority == '' ? nil : priority.to_i
+    DB[:tasks].where(id: id).update(title: title) if original[:title] != title
+    DB[:tasks].where(id: id).update(deadline: deadline) if original[:deadline] != deadline
+    DB[:tasks].where(id: id).update(priority: priority) if original[:priority] != priority
+    DB[:tasks].where(id: id).update(tag: tag) if original[:tag] != tag
+  end
+
   def self.complete(id)
     DB[:tasks].where(id: id).update(state: STATE_DONE)
   end
@@ -62,10 +82,15 @@ module TaskMan
     DB[:tasks].where(id: id).delete
   end
 
+  def self.find(id)
+    DB[:tasks].where(id: id).first
+  end
+
   def self.list
     basic = DB[:tasks].where(state: STATE_TODO)
-    filter = DB[:config_filters].where(key: 'filter').get(:value)
-    sorter = DB[:config_filters].where(key: 'sorter').get(:value)
+    config = DB[:config].to_hash(:key, :value)
+    filter = config['filter']
+    sorter = config['sorter']
 
     filted = filt_tasks(basic, filter)
     sort_tasks(filted, sorter)
@@ -73,7 +98,11 @@ module TaskMan
 
   def self.all
     raw = DB[:tasks].all
-    result = sort_tasks(raw, 'deadline')
+    sort_tasks(raw, 'deadline')
+  end
+
+  def self.all_tags
+    DB[:tasks].select_map(:tag).uniq
   end
 
   private
@@ -81,11 +110,11 @@ module TaskMan
   def self.filt_tasks(tasks, filter)
     case filter
     when 'ddl'
-      deadtime = DB[:config_filters].where(key: 'day').get(:value).to_i
+      deadtime = DB[:config].where(key: 'day').get(:value).to_i
       tasks.where { deadline >= Date.today }
         .where { deadline <= Date.today + deadtime }.all
     when 'tag'
-      tag = DB[:config_filters].where(key: 'tag').get(:value)
+      tag = DB[:config].where(key: 'tag').get(:value)
       tasks.where(tag: tag).all
     when 'all' then tasks.all
     else []
@@ -106,14 +135,13 @@ module TaskMan
   end
 end
 
-DB.create_table?(:readmes) do
-  primary_key :id
-  foreign_key :task_id, :tasks, null: false, on_delete: :cascade
-  String      :content, text: true
-  DateTime    :time
-end
-
 module ReadmeMan
+  def self.add?(task_id:, content:)
+    return if empty_text?(content)
+
+    add(task_id, content)
+  end
+
   def self.add(task_id:, content:)
     task_id = task_id.to_i unless task_id.is_a?(Integer)
 
@@ -121,5 +149,60 @@ module ReadmeMan
       task_id: task_id,
       content: content
     )
+  end
+
+  def self.delete(id)
+    task_id = DB[:readmes].where(id: id).get(:task_id)
+    DB[:readmes].where(id: id).delete
+
+    task_id
+  end
+
+  def self.list_match(task_id:)
+    DB[:readmes].where(task_id: task_id).all
+  end
+
+  private
+
+  def self.empty_text?(content)
+    content.delete("\n\r") == ''
+  end
+end
+
+module ConfigMan
+  def self.config_pairs_hashed
+    DB[:config].all.map { |h| [h[:key].to_sym, h[:value]] }.to_h
+  end
+
+  def self.filter
+    DB[:config].where(key: 'filter').get(:value)
+  end
+
+  def self.sorter
+    DB[:config].where(key: 'sorter').get(:value)
+  end
+
+  def self.day
+    DB[:config].where(key: 'day').get(:value)
+  end
+
+  def self.tag
+    DB[:config].where(key: 'tag').get(:value)
+  end
+
+  def self.filter=(new_filter)
+    DB[:config].where(key: 'filter').update(value: new_filter)
+  end
+
+  def self.sorter=(new_sorter)
+    DB[:config].where(key: 'sorter').update(value: new_sorter)
+  end
+
+  def self.day=(new_day)
+    DB[:config].where(key: 'day').update(value: new_day)
+  end
+
+  def self.tag=(new_tag)
+    DB[:config].where(key: 'tag').update(value: new_tag)
   end
 end
