@@ -24,7 +24,7 @@ CLOSED: [2026-02-23 周一 13:05]
 + [X] fully replace the readmes' funs
 
 
-* Wishes to do [1/4]
+* Wishes to do [2/4]
 ** DONE Change button 标记完成 From GET to POST
 CLOSED: [2026-02-20 周五 23:59]
 + Location: ~views/index.erb~
@@ -35,7 +35,8 @@ CLOSED: [2026-02-20 周五 23:59]
 ** TODO Change icon @sicon[] Into button to toggle
 + Location: ~views/tasks.erb~
 
-** TODO 进行表格行宽问题的改进
+** DONE 进行表格行宽问题的改进
+CLOSED: [2026-02-23 周一 21:21]
 + Location: Perhaps CSS?
 
 
