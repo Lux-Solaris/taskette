@@ -43,8 +43,8 @@
     <div class="text-center" style="margin-top: 1.5rem; padding: 1.2rem; background: var(--light-mint); border-radius: 16px;">
       <div id="pomodoro-timer" style="font-size: 2.5rem; font-weight: bold; margin: 0.5rem 0;">25:00</div>
       <div>
-        <button id="pomo-start" class="btn" style="background: #ff6b6b;">▶️ 开始</button>
-        <button id="pomo-pause" class="btn" style="background: #ffa94d; display: none;">⏸️ 暂停</button>
+        <button id="pomo-start" class="btn" style="background: var(--alert-red);">▶️ 开始</button>
+        <button id="pomo-pause" class="btn" style="background: var(--pause-orange); display: none;">⏸️ 暂停</button>
         <button id="pomo-reset" class="btn" style="background: var(--soft-blue);">🔄 重置</button>
       </div>
       <p class="text-gray" style="margin-top: 0.5rem;">✨ 专注25分钟，休息5分钟~ 看板酱为你加油!</p>
@@ -52,12 +52,12 @@
 
     <!-- 底部操作 -->
     <div class="text-center" style="margin-top: 1.5rem;">
-      <a href="/" class="btn" style="background: #a2d2ff;">🏠 回到看板</a>
+      <a href="/" class="btn" style="background: var(--soft-blue);">🏠 回到看板</a>
       <a href="/tasks/<%= @task[:id] %>/edit" class="btn">✏️ 编辑任务</a>
       <form action="/tasks/<%= @task[:id] %>/complete" method="post" style="display:inline;">
         <button type="submit"
                 class="btn"
-                style="background: #8BDBB9; color: #2C5530; margin-left: 0.5rem;"
+                style="background: var(--success-green); color: var(--success-text); margin-left: 0.5rem;"
                 onclick="return confirm('确定完成这个任务吗?\n完成后将返回看板~')">
           ✅ 完成任务
         </button>

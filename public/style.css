@@ -38,6 +38,29 @@
     --subtle-gray: #999999;
     /* Shadow Color */
     --shadow-light: rgba(0, 0, 0, 0.05);
+    /* Alert Colors */
+    --alert-red: #ff6b6b;
+    --alert-red-bg: #fff5f5;
+    /* Button Colors */
+    --hover-pink: #ff7eb9;
+    --btn-inactive-bg: #f0f0f0;
+    --btn-inactive-text: #a0a0a0;
+    --shadow-pink: rgba(255, 165, 210, 0.3);
+    --shadow-pink-hover: rgba(255, 165, 210, 0.4);
+    /* Border Colors */
+    --border-gray: #e0e0e0;
+    --border-light: #eee;
+    /* Hover Colors */
+    --hover-gray: #e8e8e8;
+    /* Footer Colors */
+    --footer-text: #888;
+    /* Pomodoro Colors */
+    --pause-orange: #ffa94d;
+    /* Success Colors */
+    --success-green: #8BDBB9;
+    --success-text: #2C5530;
+    /* Basic Colors */
+    --white: white;
 }
 
 * {
@@ -113,23 +136,23 @@ body > main > h2 {
 
 /* ===== 过期任务：红色警报 ===== */
 .task-card.overdue-card {
-    border-left: 4px solid #ff6b6b;
-    background: #fff5f5;
+    border-left: 4px solid var(--alert-red);
+    background: var(--alert-red-bg);
 }
 .overdue-badge {
     position: absolute;
     top: 1rem;
     right: 1rem;
-    color: #ff6b6b;
+    color: var(--alert-red);
     font-weight: bold;
     font-size: 0.85rem;
-    background: #fff5f5;
+    background: var(--alert-red-bg);
     padding: 0.3rem 0.6rem;
     border-radius: 12px;
-    border: 1px solid #ff6b6b;
+    border: 1px solid var(--alert-red);
 }
 .overdue-text {
-    color: #ff6b6b;
+    color: var(--alert-red);
     font-weight: bold;
 }
 
@@ -137,7 +160,7 @@ body > main > h2 {
 .btn {
     display: inline-block;
     background: var(--main-pink);
-    color: white;
+    color: var(--white);
     border: none;
     border-radius: 20px;
     padding: 0.4rem 1rem;
@@ -148,33 +171,33 @@ body > main > h2 {
     transition: background 0.2s;
 }
 .btn:hover {
-    background: #ff7eb9;
+    background: var(--hover-pink);
 }
 
 /* ===== 按钮状态魔法 ===== */
 /* 非激活态：温柔退后的小云朵☁️ */
 .btn.inactive {
-    background-color: #f0f0f0;
-    color: #a0a0a0;
-    border: 1px solid #e0e0e0;
+    background-color: var(--btn-inactive-bg);
+    color: var(--btn-inactive-text);
+    border: 1px solid var(--border-gray);
     opacity: 0.7;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 .btn.inactive:hover {
-    background-color: #e8e8e8;
+    background-color: var(--hover-gray);
     opacity: 0.9;
     transform: translateY(-1px);
 }
 
 /* 激活态：闪闪发光的小主角🌟 */
 .btn.active {
-    background: linear-gradient(135deg, var(--main-pink), #ff7eb9);
-    color: white !important;
-    border: 2px solid white;
+    background: linear-gradient(135deg, var(--main-pink), var(--hover-pink));
+    color: var(--white) !important;
+    border: 2px solid var(--white);
     box-shadow: 
         0 0 0 2px var(--soft-blue),
-        0 4px 10px rgba(255, 165, 210, 0.3);
+        0 4px 10px var(--shadow-pink);
     font-weight: bold;
     transform: translateY(-2px);
     position: relative;
@@ -185,14 +208,14 @@ body > main > h2 {
     transform: translateY(-3px);
     box-shadow: 
         0 0 0 2px var(--soft-blue),
-        0 6px 15px rgba(255, 165, 210, 0.4);
-    background: linear-gradient(135deg, #ff7eb9, var(--main-pink));
+        0 6px 15px var(--shadow-pink-hover);
+    background: linear-gradient(135deg, var(--hover-pink), var(--main-pink));
 }
 
 /* ===== 表单输入：温柔边框 ===== */
 input, textarea, select {
     padding: 0.5rem;
-    border: 2px solid #e0e0e0;
+    border: 2px solid var(--border-gray);
     border-radius: 12px;
     font-size: 1rem;
     margin: 0.3rem 0;
@@ -206,7 +229,7 @@ input:focus, textarea:focus {
 
 ::placeholder {
     font-family: "Maple Mono NF CN", "Noto Sans SC", "Microsoft YaHei", sans-serif;
-    color: #999;
+    color: var(--subtle-gray);
     opacity: 1;
 }
 
@@ -226,7 +249,7 @@ input[type="date"]::-webkit-datetime-edit-fields-wrapper {
 .task-table {
     width: 100%;
     border-collapse: collapse;
-    background-color: white;
+    background-color: var(--white);
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 2px 8px var(--shadow-light);
@@ -235,7 +258,7 @@ input[type="date"]::-webkit-datetime-edit-fields-wrapper {
 
 .task-header {
     background: linear-gradient(135deg, var(--main-pink), var(--soft-blue));
-    color: white;
+    color: var(--white);
 }
 .task-header th {
     padding: 1rem;
@@ -244,7 +267,7 @@ input[type="date"]::-webkit-datetime-edit-fields-wrapper {
 }
 
 .task-row {
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--border-light);
     transition: background-color 0.2s;
 }
 .task-row td {
@@ -252,10 +275,10 @@ input[type="date"]::-webkit-datetime-edit-fields-wrapper {
     font-size: 0.95rem;
 }
 .task-row:hover {
-    background-color: #fff9f9;
+    background-color: var(--warm-white);
     box-shadow:
-        0 -2px 4px rgba(0, 0, 0, 0.05),
-        0  2px 4px rgba(0, 0, 0, 0.05);
+        0 -2px 4px var(--shadow-light),
+        0  2px 4px var(--shadow-light);
     transition: background-color 0.2s, box-shadow 0.2s;
 }
 .text-gray {
@@ -280,7 +303,7 @@ input[type="date"]::-webkit-datetime-edit-fields-wrapper {
     width: 100%;
     margin: 2rem auto;
     padding: 1.5rem;
-    background: white;
+    background: var(--white);
     border-radius: 16px;
     box-shadow: 0 2px 8px var(--shadow-light);
 }
@@ -302,9 +325,9 @@ textarea {
 .main-footer {
     text-align: center;
     padding: 2rem 1rem;
-    color: #888;
+    color: var(--footer-text);
     font-size: 0.9rem;
-    border-top: 1px dashed #eee;
+    border-top: 1px dashed var(--border-light);
     margin-top: 3rem;
 }
 .main-footer p {

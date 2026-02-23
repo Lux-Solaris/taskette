@@ -41,17 +41,17 @@
     <% if @readmes.empty? %>
       <p class="text-center text-gray">📭 暂无记录~ 专注后记得添加哦！</p>
     <% else %>
-      <div style="max-height: 200px; overflow-y: auto; border: 1px dashed #e0e0e0; border-radius: 12px; padding: 0.8rem; margin-bottom: 1rem;">
+      <div style="max-height: 200px; overflow-y: auto; border: 1px dashed var(--border-gray); border-radius: 12px; padding: 0.8rem; margin-bottom: 1rem;">
         <% @readmes.each do |rm| %>
-          <div style="display: flex; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0;">
+          <div style="display: flex; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid var(--border-gray);">
             <span style="flex:1; font-size: 0.9rem;"><%= safe_truncate(rm[:content]) %></span>
             <button type="button" 
                     class="btn-sm" 
-                    style="background:#ff6b6b; padding:0.2rem 0.6rem;"
+                    style="background:var(--alert-red); padding:0.2rem 0.6rem;"
                     onclick="deleteReadme(<%= rm[:id] %>)">❌</button>
             <!-- <form action="/readmes/<%= rm[:id] %>" method="post" style="display:inline;" onsubmit="return confirm('确定删除这条记录？')">
                  <input type="hidden" name="_method" value="delete">
-                 <button type="submit" class="btn-sm" style="background:#ff6b6b; padding:0.2rem 0.6rem;">❌</button>
+                 <button type="submit" class="btn-sm" style="background:var(--alert-red); padding:0.2rem 0.6rem;">❌</button>
                  </form> -->
           </div>
         <% end %>
@@ -66,7 +66,7 @@
     <!-- 保存按钮 -->
     <div class="text-center" style="margin-top: 1.5rem;">
       <button type="submit" class="btn">💾 保存并返回专注模式</button>
-      <a href="/tasks/<%= @task[:id] %>" class="btn" style="background: #a2d2ff; margin-left: 0.5rem;">🔙 取消</a>
+      <a href="/tasks/<%= @task[:id] %>" class="btn" style="background: var(--soft-blue); margin-left: 0.5rem;">🔙 取消</a>
     </div>
   </div>
 </form>
