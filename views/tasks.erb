@@ -1,4 +1,11 @@
 <h2>任务仓库 📦</h2>
+
+<div class="filter-controls">
+  <button id="toggle-completed" class="btn btn-sm">
+    ✨ 专注待办
+  </button>
+</div>
+
 <div class="task-table-container">
   <table class="task-table" >
   <thead>
@@ -79,5 +86,19 @@
   document.getElementById('scroll-to-add').addEventListener('click', () => {
     const heading = document.getElementById('add-task-heading');
     heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  const toggleButton = document.getElementById('toggle-completed');
+  let showCompleted = true;
+
+  toggleButton.addEventListener('click', () => {
+    showCompleted = !showCompleted;
+    const completedRows = document.querySelectorAll('.task-row.completed');
+    
+    completedRows.forEach(row => {
+      row.style.display = showCompleted ? '' : 'none';
+    });
+    
+    toggleButton.textContent = showCompleted ? '✨ 专注待办' : '🌸 显示全部';
   });
 </script>

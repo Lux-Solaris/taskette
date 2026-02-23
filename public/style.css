@@ -335,6 +335,13 @@ input[type="date"]::-webkit-datetime-edit-fields-wrapper {
 }
 
 /* ===== 表格：治愈系紧凑版 ===== */
+.filter-controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+  gap: 0.5rem;
+}
+
 .task-table-container {
     width: 100%;
     overflow-x: auto;
