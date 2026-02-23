@@ -45,7 +45,8 @@
     --color-text-secondary: #999999;
     --color-text-disabled: #a0a0a0;
     --color-text-footer: #888888;
-    --color-text-on-success: #2C5530;
+    --color-text-on-success: #1a4d2e;
+    --color-text-on-accent: #2d5a3d;
     
     /* ===== 边框色系统 ===== */
     --color-border-default: #e0e0e0;
@@ -85,7 +86,8 @@ body.dark-mode {
     --color-text-secondary: #a0a0a0;
     --color-text-disabled: #666666;
     --color-text-footer: #888899;
-    --color-text-on-success: #a8d5b5;
+    --color-text-on-success: #0a2a1a;
+    --color-text-on-accent: #1a3d28;
     
     /* ===== 边框色系统 ===== */
     --color-border-default: #3a3a5a;
