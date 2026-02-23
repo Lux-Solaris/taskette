@@ -28,39 +28,42 @@
 }
 
 :root {
-    /* Theme Color */
-    --main-pink: #ffadd2;
-    --soft-blue: #a2d2ff;
-    --light-mint: #caffbf;
-    --warm-white: #fff9f9;
-    /* Font Color */
-    --text-dark: #4b4b4b;
-    --subtle-gray: #999999;
-    /* Shadow Color */
-    --shadow-light: rgba(0, 0, 0, 0.05);
-    /* Alert Colors */
-    --alert-red: #ff6b6b;
-    --alert-red-bg: #fff5f5;
-    /* Button Colors */
-    --hover-pink: #ff7eb9;
-    --btn-inactive-bg: #f0f0f0;
-    --btn-inactive-text: #a0a0a0;
-    --shadow-pink: rgba(255, 165, 210, 0.3);
-    --shadow-pink-hover: rgba(255, 165, 210, 0.4);
-    /* Border Colors */
-    --border-gray: #e0e0e0;
-    --border-light: #eee;
-    /* Hover Colors */
-    --hover-gray: #e8e8e8;
-    /* Footer Colors */
-    --footer-text: #888;
-    /* Pomodoro Colors */
-    --pause-orange: #ffa94d;
-    /* Success Colors */
-    --success-green: #8BDBB9;
-    --success-text: #2C5530;
-    /* Basic Colors */
-    --white: white;
+    /* ===== 主题色系统 ===== */
+    --color-primary: #ffadd2;
+    --color-primary-hover: #ff7eb9;
+    --color-secondary: #a2d2ff;
+    --color-accent: #caffbf;
+    
+    /* ===== 中性色系统 ===== */
+    --color-bg-base: #fff9f9;
+    --color-bg-surface: #ffffff;
+    --color-bg-hover: #e8e8e8;
+    --color-bg-disabled: #f0f0f0;
+    
+    /* ===== 文字色系统 ===== */
+    --color-text-primary: #4b4b4b;
+    --color-text-secondary: #999999;
+    --color-text-disabled: #a0a0a0;
+    --color-text-footer: #888888;
+    --color-text-on-success: #2C5530;
+    
+    /* ===== 边框色系统 ===== */
+    --color-border-default: #e0e0e0;
+    --color-border-light: #eeeeee;
+    
+    /* ===== 状态色系统 ===== */
+    --color-success: #8BDBB9;
+    --color-warning: #ffa94d;
+    --color-error: #ff6b6b;
+    --color-error-bg: #fff5f5;
+    
+    /* ===== 阴影色系统 ===== */
+    --shadow-sm: rgba(0, 0, 0, 0.05);
+    --shadow-primary: rgba(255, 165, 210, 0.3);
+    --shadow-primary-hover: rgba(255, 165, 210, 0.4);
+    
+    /* ===== 基础色 ===== */
+    --color-white: #ffffff;
 }
 
 * {
@@ -69,8 +72,8 @@
 
 body.kawaii-layout {
     font-family: "Maple Mono NF CN", "Noto Sans SC", "Microsoft YaHei", sans-serif;
-    background-color: var(--warm-white);
-    color: var(--text-dark);
+    background-color: var(--color-bg-base);
+    color: var(--color-text-primary);
     line-height: 1.6;
     margin: 0;
     padding: 0;
@@ -82,9 +85,9 @@ body.kawaii-layout {
 
 /* ===== 头部：软乎乎的导航栏 ===== */
 .main-header {
-    background: linear-gradient(135deg, var(--main-pink), var(--soft-blue));
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
     padding: 1rem 2rem;
-    box-shadow: 0 4px 12px var(--shadow-light);
+    box-shadow: 0 4px 12px var(--shadow-sm);
 }
 .main-header h1 {
     margin: 0;
@@ -121,12 +124,12 @@ body > main > h2 {
 
 /* ===== 卡片样式（用于任务项）===== */
 .task-card {
-    background: white;
+    background: var(--color-bg-surface);
     border-radius: 16px;
     padding: 1.2rem;
     margin-bottom: 1rem;
-    box-shadow: 0 2px 8px var(--shadow-light);
-    border-left: 4px solid var(--light-mint);
+    box-shadow: 0 2px 8px var(--shadow-sm);
+    border-left: 4px solid var(--color-accent);
     transition: transform 0.2s ease;
     position: relative;
 }
@@ -136,31 +139,31 @@ body > main > h2 {
 
 /* ===== 过期任务：红色警报 ===== */
 .task-card.overdue-card {
-    border-left: 4px solid var(--alert-red);
-    background: var(--alert-red-bg);
+    border-left: 4px solid var(--color-error);
+    background: var(--color-error-bg);
 }
 .overdue-badge {
     position: absolute;
     top: 1rem;
     right: 1rem;
-    color: var(--alert-red);
+    color: var(--color-error);
     font-weight: bold;
     font-size: 0.85rem;
-    background: var(--alert-red-bg);
+    background: var(--color-error-bg);
     padding: 0.3rem 0.6rem;
     border-radius: 12px;
-    border: 1px solid var(--alert-red);
+    border: 1px solid var(--color-error);
 }
 .overdue-text {
-    color: var(--alert-red);
+    color: var(--color-error);
     font-weight: bold;
 }
 
 /* ===== 按钮：圆润可爱 ===== */
 .btn {
     display: inline-block;
-    background: var(--main-pink);
-    color: var(--white);
+    background: var(--color-primary);
+    color: var(--color-white);
     border: none;
     border-radius: 20px;
     padding: 0.4rem 1rem;
@@ -171,33 +174,33 @@ body > main > h2 {
     transition: background 0.2s;
 }
 .btn:hover {
-    background: var(--hover-pink);
+    background: var(--color-primary-hover);
 }
 
 /* ===== 按钮状态魔法 ===== */
 /* 非激活态：温柔退后的小云朵☁️ */
 .btn.inactive {
-    background-color: var(--btn-inactive-bg);
-    color: var(--btn-inactive-text);
-    border: 1px solid var(--border-gray);
+    background-color: var(--color-bg-disabled);
+    color: var(--color-text-disabled);
+    border: 1px solid var(--color-border-default);
     opacity: 0.7;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 .btn.inactive:hover {
-    background-color: var(--hover-gray);
+    background-color: var(--color-bg-hover);
     opacity: 0.9;
     transform: translateY(-1px);
 }
 
 /* 激活态：闪闪发光的小主角🌟 */
 .btn.active {
-    background: linear-gradient(135deg, var(--main-pink), var(--hover-pink));
-    color: var(--white) !important;
-    border: 2px solid var(--white);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+    color: var(--color-white) !important;
+    border: 2px solid var(--color-white);
     box-shadow: 
-        0 0 0 2px var(--soft-blue),
-        0 4px 10px var(--shadow-pink);
+        0 0 0 2px var(--color-secondary),
+        0 4px 10px var(--shadow-primary);
     font-weight: bold;
     transform: translateY(-2px);
     position: relative;
@@ -207,15 +210,15 @@ body > main > h2 {
 .btn.active:hover {
     transform: translateY(-3px);
     box-shadow: 
-        0 0 0 2px var(--soft-blue),
-        0 6px 15px var(--shadow-pink-hover);
-    background: linear-gradient(135deg, var(--hover-pink), var(--main-pink));
+        0 0 0 2px var(--color-secondary),
+        0 6px 15px var(--shadow-primary-hover);
+    background: linear-gradient(135deg, var(--color-primary-hover), var(--color-primary));
 }
 
 /* ===== 表单输入：温柔边框 ===== */
 input, textarea, select {
     padding: 0.5rem;
-    border: 2px solid var(--border-gray);
+    border: 2px solid var(--color-border-default);
     border-radius: 12px;
     font-size: 1rem;
     margin: 0.3rem 0;
@@ -224,12 +227,12 @@ input, textarea, select {
 }
 input:focus, textarea:focus {
     outline: none;
-    border-color: var(--soft-blue);
+    border-color: var(--color-secondary);
 }
 
 ::placeholder {
     font-family: "Maple Mono NF CN", "Noto Sans SC", "Microsoft YaHei", sans-serif;
-    color: var(--subtle-gray);
+    color: var(--color-text-secondary);
     opacity: 1;
 }
 
@@ -249,16 +252,16 @@ input[type="date"]::-webkit-datetime-edit-fields-wrapper {
 .task-table {
     width: 100%;
     border-collapse: collapse;
-    background-color: var(--white);
+    background-color: var(--color-bg-surface);
     border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 2px 8px var(--shadow-light);
+    box-shadow: 0 2px 8px var(--shadow-sm);
     margin-bottom: 2rem;
 }
 
 .task-header {
-    background: linear-gradient(135deg, var(--main-pink), var(--soft-blue));
-    color: var(--white);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    color: var(--color-white);
 }
 .task-header th {
     padding: 1rem;
@@ -267,7 +270,7 @@ input[type="date"]::-webkit-datetime-edit-fields-wrapper {
 }
 
 .task-row {
-    border-bottom: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--color-border-light);
     transition: background-color 0.2s;
 }
 .task-row td {
@@ -275,14 +278,14 @@ input[type="date"]::-webkit-datetime-edit-fields-wrapper {
     font-size: 0.95rem;
 }
 .task-row:hover {
-    background-color: var(--warm-white);
+    background-color: var(--color-bg-base);
     box-shadow:
-        0 -2px 4px var(--shadow-light),
-        0  2px 4px var(--shadow-light);
+        0 -2px 4px var(--shadow-sm),
+        0  2px 4px var(--shadow-sm);
     transition: background-color 0.2s, box-shadow 0.2s;
 }
 .text-gray {
-    color: var(--subtle-gray);
+    color: var(--color-text-secondary);
 }
 
 /* 操作按钮：更小更精致 */
@@ -303,17 +306,16 @@ input[type="date"]::-webkit-datetime-edit-fields-wrapper {
     width: 100%;
     margin: 2rem auto;
     padding: 1.5rem;
-    background: var(--white);
+    background: var(--color-bg-surface);
     border-radius: 16px;
-    box-shadow: 0 2px 8px var(--shadow-light);
+    box-shadow: 0 2px 8px var(--shadow-sm);
 }
 
-/* 表单标签 */
 .task-form label {
     display: block;
     margin: 1rem 0 0.4rem;
     font-weight: 500;
-    color: var(--text-dark);
+    color: var(--color-text-primary);
 }
 
 /* 文本域高度优化 */
@@ -325,9 +327,9 @@ textarea {
 .main-footer {
     text-align: center;
     padding: 2rem 1rem;
-    color: var(--footer-text);
+    color: var(--color-text-footer);
     font-size: 0.9rem;
-    border-top: 1px dashed var(--border-light);
+    border-top: 1px dashed var(--color-border-light);
     margin-top: 3rem;
 }
 .main-footer p {
