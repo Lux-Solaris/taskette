@@ -10,9 +10,11 @@
   <div class="task-form">
     <h3 class="text-center">🔍 筛选规则</h3>
     <div class="form-group">
-      <a href="/config?filter=all" class="btn <%= params[:filter] == 'all' ? 'active' : 'inactive' %>">全部任务</a>
-      <a href="/config?filter=ddl" class="btn <%= params[:filter] == 'ddl' ? 'active' : 'inactive' %>">按DDL筛选</a>
-      <a href="/config?filter=tag" class="btn <%= params[:filter] == 'tag' ? 'active' : 'inactive' %>">按标签筛选</a>
+      <div class="btn-group">
+        <a href="/config?filter=all" class="btn <%= params[:filter] == 'all' ? 'active' : 'inactive' %>">全部任务</a>
+        <a href="/config?filter=ddl" class="btn <%= params[:filter] == 'ddl' ? 'active' : 'inactive' %>">按DDL筛选</a>
+        <a href="/config?filter=tag" class="btn <%= params[:filter] == 'tag' ? 'active' : 'inactive' %>">按标签筛选</a>
+      </div>
     </div>
 
     <!-- 动态输入框 (按筛选规则显示) -->
