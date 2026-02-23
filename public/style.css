@@ -203,6 +203,24 @@ input:focus, textarea:focus {
     border-color: var(--soft-blue);
 }
 
+::placeholder {
+    font-family: "Maple Mono NF CN", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+    color: #999;
+    opacity: 1;
+}
+
+input[type="date"] {
+    font-family: "Maple Mono NF CN", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+}
+
+input[type="date"]::-webkit-datetime-edit {
+    font-family: "Maple Mono NF CN", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+}
+
+input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+    font-family: "Maple Mono NF CN", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+}
+
 /* ===== 表格：治愈系紧凑版 ===== */
 .task-table {
     width: 100%;
