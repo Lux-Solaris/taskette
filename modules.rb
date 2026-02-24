@@ -27,6 +27,15 @@ DB.create_table?(:tasks) do
   String  :tag                # 任务标签
 end
 
+DB.create_table?(:timestamps) do
+  Integer  :task_id
+  String   :descriptor
+  DateTime :value, null: false
+
+  primary_key [:task_id, :descriptor]
+  foreign_key [:task_id], :tasks, null: false, on_delete: :cascade
+end
+
 DB.create_table?(:readmes) do
   primary_key :id
   foreign_key :task_id, :tasks, null: false, on_delete: :cascade
@@ -65,17 +74,26 @@ module TaskMan
   end
 
   def self.update(id:, title:, deadline:, priority:, tag:)
-    original = DB[:tasks].where(id: id).first
-    deadline = deadline == '' ? nil : Date.parse(deadline)
-    priority = priority == '' ? nil : priority.to_i
-    DB[:tasks].where(id: id).update(title: title) if original[:title] != title
-    DB[:tasks].where(id: id).update(deadline: deadline) if original[:deadline] != deadline
-    DB[:tasks].where(id: id).update(priority: priority) if original[:priority] != priority
-    DB[:tasks].where(id: id).update(tag: tag) if original[:tag] != tag
+    DB.transaction do
+      original = DB[:tasks].where(id: id).first
+      deadline = deadline == '' ? nil : Date.parse(deadline)
+      priority = priority == '' ? nil : priority.to_i
+      DB[:tasks].where(id: id).update(title: title) if original[:title] != title
+      DB[:tasks].where(id: id).update(deadline: deadline) if original[:deadline] != deadline
+      DB[:tasks].where(id: id).update(priority: priority) if original[:priority] != priority
+      DB[:tasks].where(id: id).update(tag: tag) if original[:tag] != tag
+    end
   end
 
   def self.complete(id)
     DB[:tasks].where(id: id).update(state: STATE_DONE)
+    time = DateTime.now
+    DB.transaction do
+      result = DB[:timestamps].where(task_id: id, descriptor: 'DONE').update(value: time)
+      if result == 0
+        DB[:timestamps].insert(task_id: id, descriptor: 'DONE', value: time)
+      end
+    end
   end
 
   def self.delete(id)
@@ -131,6 +149,22 @@ module TaskMan
       tasks.sort_by { |row| [row[:tag], -(row[:priority] || 0), row[:deadline] || MAX_DATE] }
     else
       sort_tasks(tasks, 'priority')
+    end
+  end
+end
+
+module TimestampMan
+  def self.fetch(task_id:, descriptor:)
+    DB[:timestamps].where(task_id: task_id, descriptor: descriptor).get(:value)
+  end
+
+  def self.mark(task_id:, descriptor:)
+    time = DateTime.now
+    DB.transaction do
+      result = DB[:timestamps].where(task_id: task_id, descriptor: descriptor).update(value: time)
+      if result == 0
+        DB[:timestamps].insert(task_id: id, descriptor: descriptor, value: time)
+      end
     end
   end
 end
