@@ -212,7 +212,7 @@ module ReadmeMan
   private
 
   def self.empty_text?(content)
-    content.delete("\n\r") == ''
+    content.delete("\n\r ") == ''
   end
 end
 

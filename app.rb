@@ -73,13 +73,21 @@ post '/tasks' do
 end
 
 post '/tasks/:id/complete' do
-  TaskMan.complete(params[:id])
+  TaskMan.complete(params[:id].to_i)
   redirect to '/'
 end
 
 post '/tasks/:id/toggle' do
-  TaskMan.toggle(params[:id])
+  TaskMan.toggle(params[:id].to_i)
   redirect to '/tasks'
+end
+
+put '/tasks/:id/readme' do
+  id = params[:id].to_i
+
+  ReadmeMan.add?(task_id: id, content: params[:readme])
+
+  redirect to "/tasks/#{id}"
 end
 
 put '/tasks/:id' do

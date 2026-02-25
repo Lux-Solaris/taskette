@@ -23,7 +23,31 @@
     </div>
 
     <!-- README 进度流 (时间顺序) -->
-    <h3 class="text-center">📝 任务记录</h3>
+    <div style="margin-bottom: 1rem;">
+      <h3 style="display: flex; align-items: center; margin: 0;">
+        📝 任务记录
+        <button id="add-readme-btn" style="all: unset; font-size: 1.5rem; cursor: pointer; padding: 0.2rem 0.5rem; border-radius: 8px; user-select: none; margin-left: 0.5rem;">
+          ➕
+        </button>
+      </h3>
+    </div>
+    
+    <!-- README 表单 (默认隐藏) -->
+    <div id="readme-form" style="display: none; margin: 1rem 0; padding: 1rem; background: var(--color-bg-surface); border-radius: 12px; box-shadow: 0 2px 8px var(--shadow-sm);">
+      <form action="/tasks/<%= @task[:id] %>/readme" method="post">
+        <input type="hidden" name="_method" value="put">
+        <textarea name="readme" placeholder="记录你的任务进展..." style="width: 100%; min-height: 100px; margin-bottom: 1rem;"></textarea>
+        <div style="display: flex; gap: 0.5rem; justify-content: center;">
+          <button type="button" id="cancel-readme-btn" class="btn" style="background: var(--color-bg-disabled);">
+            取消
+          </button>
+          <button type="submit" class="btn" style="background: var(--color-success);">
+            保存记录
+          </button>
+        </div>
+      </form>
+    </div>
+    
     <% if @readmes.empty? %>
       <p class="text-center text-gray" style="padding: 1.5rem;">📭 还没有记录哦~ 专注后记得添加喵！</p>
     <% else %>
@@ -95,11 +119,28 @@
      document.getElementById('pomo-start').style.display = 'inline-block';
    };
    document.getElementById('pomo-reset').onclick = () => {
-     clearInterval(timer); isRunning = false; timeLeft = (work ? 25 : 5)*60
-     document.getElementById('pomo-pause').style.display = 'none';
-     document.getElementById('pomo-start').style.display = 'inline-block';
-     updateDisplay();
-   };
+    clearInterval(timer); isRunning = false; timeLeft = (work ? 25 : 5)*60
+    document.getElementById('pomo-pause').style.display = 'none';
+    document.getElementById('pomo-start').style.display = 'inline-block';
+    updateDisplay();
+  };
+
+  // README 表单交互
+  const addReadmeBtn = document.getElementById('add-readme-btn');
+  const cancelReadmeBtn = document.getElementById('cancel-readme-btn');
+  const readmeForm = document.getElementById('readme-form');
+
+  if (addReadmeBtn && cancelReadmeBtn && readmeForm) {
+    addReadmeBtn.addEventListener('click', () => {
+      readmeForm.style.display = 'block';
+      addReadmeBtn.style.display = 'none';
+    });
+
+    cancelReadmeBtn.addEventListener('click', () => {
+      readmeForm.style.display = 'none';
+      addReadmeBtn.style.display = 'inline-block';
+    });
+  }
   </script>
 <% else %>
   <h2 class="text-center">🍅 专注模式</h2>
