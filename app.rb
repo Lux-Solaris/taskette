@@ -77,6 +77,11 @@ post '/tasks/:id/complete' do
   redirect to '/'
 end
 
+post '/tasks/:id/toggle' do
+  TaskMan.toggle(params[:id])
+  redirect to '/tasks'
+end
+
 put '/tasks/:id' do
   id = params[:id].to_i
 

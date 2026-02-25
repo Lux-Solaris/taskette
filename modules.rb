@@ -87,11 +87,15 @@ module TaskMan
 
   def self.complete(id)
     DB[:tasks].where(id: id).update(state: STATE_DONE)
-    time = DateTime.now
+    TimestampMan.mark(task_id: id, descriptor: 'DONE')
+  end
+
+  def self.toggle(id)
     DB.transaction do
-      result = DB[:timestamps].where(task_id: id, descriptor: 'DONE').update(value: time)
-      if result == 0
-        DB[:timestamps].insert(task_id: id, descriptor: 'DONE', value: time)
+      state = DB[:tasks].where(id: id).get(:state)
+      DB[:tasks].where(id: id).update(state: state == STATE_TODO ? STATE_DONE : STATE_TODO)
+      if state == STATE_TODO
+        TimestampMan.mark(task_id: id, descriptor: 'DONE')
       end
     end
   end
@@ -115,7 +119,9 @@ module TaskMan
   end
 
   def self.all
-    raw = DB[:tasks].all
+    raw = DB[:tasks].left_join(:timestamps, task_id: :id, descriptor: 'DONE')
+      .select(Sequel[:tasks].*, Sequel[:timestamps][:value].as(:done_time))
+      .all
     sort_tasks(raw, 'deadline')
   end
 

@@ -22,7 +22,13 @@
     <% @tasks.each do |task| %>
       <tr class="task-row <%= 'completed' if task[:state] == 0 %>">
         <td>
-          <%= @sicon[task[:state]] %>
+          <form action="/tasks/<%= task[:id] %>/toggle" method="post" style="display:inline;">
+            <button type="submit" 
+                    style="all:unset; cursor:pointer;" 
+                    onclick="return confirm('<%= task[:state] == 0 ? '确定要标记这个任务为待办吗？' : '确定要标记这个任务为完成吗？' %>');">
+              <%= @sicon[task[:state]] %>
+            </button>
+          </form>
         </td>
         <td><a href="/tasks/<%= task[:id] %>" style="color: inherit; text-decoration: none"><%= task[:title] %></a></td>
         <td><%= task[:deadline] || '<span class="text-gray">-无DDL-</span>' %></td>
