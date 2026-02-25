@@ -30,7 +30,12 @@
             </button>
           </form>
         </td>
-        <td><a href="/tasks/<%= task[:id] %>" style="color: inherit; text-decoration: none"><%= task[:title] %></a></td>
+        <td style="white-space: normal;">
+          <a href="/tasks/<%= task[:id] %>" style="color: inherit; text-decoration: none; display: block; margin-bottom: 0.2rem;"><%= task[:title] %></a>
+          <% if task[:done_time] %>
+            <span style="font-size: 0.75em; color: var(--color-text-secondary); display: block;">✅ <%= task[:done_time].strftime('%Y-%m-%d %H:%M') %></span>
+          <% end %>
+        </td>
         <td><%= task[:deadline] || '<span class="text-gray">-无DDL-</span>' %></td>
         <td><%= '⭐' * (task[:priority] || 0) %></td>
         <td><%= task[:tag] || '-' %></td>
