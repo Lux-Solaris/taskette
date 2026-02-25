@@ -96,6 +96,8 @@ module TaskMan
       DB[:tasks].where(id: id).update(state: state == STATE_TODO ? STATE_DONE : STATE_TODO)
       if state == STATE_TODO
         TimestampMan.mark(task_id: id, descriptor: 'DONE')
+      else
+        TimestampMan.unmark(task_id: id, descriptor: 'DONE')
       end
     end
   end
@@ -172,6 +174,10 @@ module TimestampMan
         DB[:timestamps].insert(task_id: task_id, descriptor: descriptor, value: time)
       end
     end
+  end
+
+  def self.unmark(task_id:, descriptor:)
+    DB[:timestamps].where(task_id: task_id, descriptor: descriptor).delete
   end
 end
 
