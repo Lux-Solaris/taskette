@@ -837,8 +837,8 @@ body.dark-mode .theme-toggle {
 
 /* ===== 滚动到底部按钮（复用通用样式）===== */
 .scroll-to-bottom {
-    bottom: 2rem;
-    right: 2rem;
+    top: 50%;
+    left: 2rem;
     background: var(--color-primary);
     font-size: 1.2rem;
 }
