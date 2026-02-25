@@ -101,4 +101,31 @@
     
     toggleButton.textContent = showCompleted ? '✨ 专注待办' : '🌸 显示全部';
   });
+
+  // 滚动检测，当"添加新任务"表格完全显示时隐藏向下滚动按钮
+  const scrollButton = document.getElementById('scroll-to-add');
+  
+  function checkScrollPosition() {
+    // 获取"添加新任务"表格元素
+    const taskForm = document.querySelector('.task-form');
+    if (!taskForm) return;
+    
+    // 计算表格底部的位置
+    const formRect = taskForm.getBoundingClientRect();
+    const formBottom = formRect.bottom;
+    const windowHeight = window.innerHeight;
+    
+    // 当表格底部完全显示在视口中时，隐藏按钮
+    if (formBottom <= windowHeight) {
+      scrollButton.classList.add('hidden');
+    } else {
+      scrollButton.classList.remove('hidden');
+    }
+  }
+  
+  // 初始化时检查一次
+  checkScrollPosition();
+  
+  // 监听滚动事件
+  window.addEventListener('scroll', checkScrollPosition);
 </script>

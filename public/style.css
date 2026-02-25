@@ -838,9 +838,17 @@ body.dark-mode .theme-toggle {
 /* ===== 滚动到底部按钮（复用通用样式）===== */
 .scroll-to-bottom {
     top: 50%;
-    left: 2rem;
+    left: 10%;
     background: var(--color-primary);
     font-size: 1.2rem;
+    opacity: 1;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.scroll-to-bottom.hidden {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.8);
+    pointer-events: none;
 }
 
 .scroll-to-bottom:hover {
