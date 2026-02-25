@@ -181,7 +181,8 @@ module ReadmeMan
 
     DB[:readmes].insert(
       task_id: task_id,
-      content: content
+      content: content,
+      time: DateTime.now
     )
   end
 
