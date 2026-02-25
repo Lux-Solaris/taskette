@@ -163,7 +163,7 @@ module TimestampMan
     DB.transaction do
       result = DB[:timestamps].where(task_id: task_id, descriptor: descriptor).update(value: time)
       if result == 0
-        DB[:timestamps].insert(task_id: id, descriptor: descriptor, value: time)
+        DB[:timestamps].insert(task_id: task_id, descriptor: descriptor, value: time)
       end
     end
   end
