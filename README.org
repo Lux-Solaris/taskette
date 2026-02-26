@@ -28,6 +28,11 @@
   #+end_src
 
 - 启动服务
-  #+begin_src bash
-    bundle exec ruby app.rb
-  #+end_src
+  + 直接使用 ~Ruby~ 进行启动
+    #+begin_src bash
+      bundle exec ruby app.rb
+    #+end_src
+  + 或者使用 ~Rackup~ 进行启动
+    #+begin_src bash
+      bundle exec rackup
+    #+end_src
